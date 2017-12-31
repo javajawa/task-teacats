@@ -1,0 +1,4 @@
+^\w{3} [ :[:digit:]]{11} [._[:alnum:]-]+ rsyslogd0: action 'action 17' resumed \(module 'builtin:ompipe'\) \[try http://www.rsyslog.com/e/0 \]$
+^\w{3} [ :[:digit:]]{11} [._[:alnum:]-]+ rsyslogd-2359: action 'action 17' resumed \(module 'builtin:ompipe'\) \[try http://www.rsyslog.com/e/2359 \]
+^\w{3} [ :[:digit:]]{11} [._[:alnum:]-]+ rsyslogd-2007: action 'action 17' suspended, next retry is [A-Z][a-z]{2} [A-Z][a-z]{2} [0-9 ][0-9] [0-9:]{8} [0-9]{4} \[try http://www.rsyslog.com/e/2007 \]$
+^\w{3} [ :[:digit:]]{11} [._[:alnum:]-]+ liblogging-stdlog:  \[origin software="rsyslogd" swVersion="[0-9\.]+" x-pid="[0-9]+" x-info="http://www.rsyslog.com"\] rsyslogd was HUPed$

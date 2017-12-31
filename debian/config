@@ -1,0 +1,109 @@
+#!/bin/sh -e
+
+# Source debconf library.
+. /usr/share/debconf/confmodule
+
+# Variables for which sections are active
+DO_HOSTNAME=0
+DO_NETWORK=0
+DO_MAIL=0
+DO_SSH=0
+DO_NTP=0
+
+# Find out which sections we should configure
+db_input high task-teacats/config || true
+db_go
+
+# Get the selected sections as a string
+db_get task-teacats/config
+
+# Set up variables
+SECTIONS=$RET
+SECTION=
+
+# Loop over the selected list
+while [ "$SECTION" != "$SECTIONS" ]
+do
+	SECTION=${SECTIONS%%, *}
+	SECTIONS=${SECTIONS#*, }
+
+	case ${SECTION} in
+		Hostname) DO_HOSTNAME=1;;
+		Network)  DO_NETWORK=1;;
+		Postfix)  DO_MAIL=1;;
+		SSH)      DO_SSH=1;;
+		NTP)      DO_NTP=1;;
+	esac
+done
+
+# Configure the remaining questions
+
+# We need a hostname for the hostname module
+if [ $(( $DO_HOSTNAME )) -gt 0 ]
+then
+	HOSTNAME=`hostname -f || true`
+
+	db_beginblock
+	db_subst task-teacats/hostname default "${HOSTNAME}"
+	db_input high task-teacats/hostname || true
+	db_endblock
+fi
+
+db_go
+
+if [ ${DO_NETWORK} -ne 0 ]
+then
+	TMP=`mktemp interfaces.XXXXXX`
+	ip link | sed -ne '/link\/ether/{x;p;d;}; x' | \
+		awk '-F: ' '{ print $2 }' >"$TMP"
+
+	INTERFACES=
+	DEFUALT=
+	while read INTERFACE
+	do
+		if [ -z "$DEFAULT" ]
+		then
+			DEFAULT=${INTERFACE}
+		fi
+
+		INTERFACES="${INTERFACES}, ${INTERFACE}"
+	done <"$TMP"
+
+	rm "$TMP"
+
+	INTERFACES=${INTERFACES#, *}
+
+	db_beginblock
+
+	db_subst task-teacats/interface choices "${INTERFACES}"
+	db_subst task-teacats/interface default "${DEFAULT}"
+
+	db_input high task-teacats/interface || true
+
+	db_input high task-teacats/address-ipv4 || true
+	db_input high task-teacats/netmask-ipv4 || true
+	db_input high task-teacats/gateway-ipv4 || true
+
+	db_input high task-teacats/address-ipv6 || true
+	db_input high task-teacats/netmask-ipv6 || true
+	db_input high task-teacats/gateway-ipv6 || true
+
+	db_input high task-teacats/address-local || true
+	db_input high task-teacats/netmask-local || true
+
+	db_endblock
+
+	unset TMP INTERFACES INTERFACE DEFAULT
+
+# We still need to know the internal IP for SSH and NTP config
+elif [ $(( ${DO_SSH} + ${DO_NTP} )) -gt 0 ]
+then
+	db_beginblock
+
+	db_input high task-teacats/address-local || true
+	db_input high task-teacats/netmask-local || true
+
+	db_endblock
+fi
+
+db_go

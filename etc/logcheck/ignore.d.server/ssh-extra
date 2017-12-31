@@ -1,0 +1,19 @@
+^\w{3} [ :[:digit:]]{11} [._[:alnum:]-]+ sshd\[[[:digit:]]+\]: Accepted (gssapi(-with-mic|-keyex)?|rsa|dsa|password|publickey|keyboard-interactive/pam|hostbased) for [^[:space:]]+ from [^[:space:]]+ port [[:digit:]]+( (ssh|ssh2))?(: (RSA|ECDSA|ED25519) (SHA256:[0-9A-Za-z=+/]{43}|([[:xdigit:]]{2}:){15}[[:xdigit:]]{2}))?$
+^\w{3} [ :[:digit:]]{11} [._[:alnum:]-]+ sshd\[[[:digit:]]+\]: Received disconnect from [:.[:xdigit:]]+( port [0-9]+:|: ?)11: (Bye Bye|ok|Client [Dd]isconnecting [Nn]ormally)? \[preauth\]$
+^\w{3} [ :[:digit:]]{11} [._[:alnum:]-]+ sshd\[[[:digit:]]+\]: Received disconnect from [:.[:xdigit:]]+( port [0-9]+:|: ?)11: Normal Shutdown$
+^\w{3} [ :[:digit:]]{11} [._[:alnum:]-]+ sshd\[[[:digit:]]+\]: Received disconnect from [:.[:xdigit:]]+( port [0-9]+:|: ?)11: disconnected by user \[preauth\]$
+^\w{3} [ :[:digit:]]{11} [._[:alnum:]-]+ sshd\[[[:digit:]]+\]: Received disconnect from [:.[:xdigit:]]+( port [0-9]+:|: ?)11: Normal Shutdown, Thank you for playing \[preauth\]$
+^\w{3} [ :[:digit:]]{11} [._[:alnum:]-]+ sshd\[[[:digit:]]+\]: Received disconnect from [:.[:xdigit:]]+( port [0-9]+:|: ?)14: Unable to connect using the available authentication methods \[preauth\]$
+^\w{3} [ :[:digit:]]{11} [._[:alnum:]-]+ sshd\[[[:digit:]]+\]: error: Received disconnect from [:[:xdigit:].]+( port [0-9]+:|: )3: com\.jcraft\.jsch\.JSchException: Auth fail \[preauth\]$
+^\w{3} [ :[:digit:]]{11} [._[:alnum:]-]+ sshd\[[[:digit:]]+\]: fatal: Read from socket failed: Connection reset by peer \[preauth\]$
+^\w{3} [ :[:digit:]]{11} [._[:alnum:]-]+ sshd\[[[:digit:]]+\]: fatal: no matching cipher found: client [a-z0-9,\-]+ server aes192-ctr,aes256-ctr \[preauth\]$
+^\w{3} [ :[:digit:]]{11} [._[:alnum:]-]+ sshd\[[[:digit:]]+\]: Disconnected from [:.[:xdigit:]]+ port [0-9]+( \[preauth\])?$
+^\w{3} [ :[:digit:]]{11} [._[:alnum:]-]+ sshd\[[[:digit:]]+\]: Connection closed by [:.[:xdigit:]]+ port [0-9]+ \[preauth\]$
+^\w{3} [ :[:digit:]]{11} [._[:alnum:]-]+ sshd\[[[:digit:]]+\]: Connection reset by [:.[:xdigit:]]+ port [0-9]+ \[preauth\]$
+^\w{3} [ :[:digit:]]{11} [._[:alnum:]-]+ sshd\[[[:digit:]]+\]: Invalid user [0-9a-zA-Z]+ from [:.[:xdigit:]]+ port [0-9]+$
+^\w{3} [ :[:digit:]]{11} [._[:alnum:]-]+ sshd\[[[:digit:]]+\]: Bad protocol version identification 'GET / HTTP/1.1' from [:.[:xdigit:]]+ port [0-9]+$
+^\w{3} [ :[:digit:]]{11} [._[:alnum:]-]+ sshd\[[[:digit:]]+\]: Did not receive identification string from [:.[:xdigit:]]+ port [0-9]+$
+^\w{3} [ :[:digit:]]{11} [._[:alnum:]-]+ sshd\[[[:digit:]]+\]: Unable to negotiate with [:.[:xdigit:]]+ port [0-9]+: no matching key exchange method found. Their offer: [a-z0-9@\.,\-]+ \[preauth\]$
+^\w{3} [ :[:digit:]]{11} [._[:alnum:]-]+ sshd\[[[:digit:]]+\]: fatal: no matching cipher found. client [a-z0-9@\.,\-]+ server [a-z0-9@\.,\-]+ \[preauth\]$
+^\w{3} [ :[:digit:]]{11} [._[:alnum:]-]+ sshd\[[[:digit:]]+\]: Disconnecting: Change of username or service not allowed: \([a-z0-9]+,ssh-connection\) -> \([a-z0-9]+,ssh-connection\) \[preauth\]$
+

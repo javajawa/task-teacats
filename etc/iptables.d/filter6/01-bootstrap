@@ -1,0 +1,18 @@
+# Networking Control Protocols
+# vim: nospell
+
+-A INPUT -i lo -j ACCEPT
+-A INPUT -p icmpv6 --icmpv6-type redirect -j DROP
+-A INPUT -p icmpv6 -j ACCEPT
+
+-A OUTPUT -o lo -j ACCEPT
+-A OUTPUT -p icmpv6 -j ACCEPT
+# Add DHCP support
+-A OUTPUT -p udp -m owner --uid-owner systemd-network --sport 546 --dport 547 -d ff02::1:2 -j ACCEPT
+
+# Active connection filter
+-A established -m conntrack --ctstate ESTABLISHED -j ACCEPT
+-A established -p tcp -m tcp --tcp-flags SYN,RST RST -j DROP
+-A established -p tcp -m tcp --tcp-flags SYN,RST,ACK,FIN ACK,FIN -j DROP
+-A established -j RETURN
+

@@ -1,0 +1,4 @@
+^\w{3} [ :[:digit:]]{11} [._[:alnum:]-]+ postfix/[ls]mtp\[[[:digit:]]+\]: [[:alnum:]]+: to=<[^[:space:]]+>,( orig_to=<[^[:space:]]+>,)? relay=[^[:space:]]+,( conn_use=[[:digit:]]+,)? delay=[.[:digit:]]+,( delays=[.[:digit:]/]+, dsn=[[:digit:].]+,)? status=sent (\(250 [[:digit:].]+ <[^[:space:]]+> [-\/+_[:alnum:]]+ Saved\)|\(215 Recipient <[^[:space:]]+> OK\))$
+^\w{3} [ :[:digit:]]{11} [._[:alnum:]-]+ postfix/anvil\[[[:digit:]]+\]: statistics:
+^\w{3} [ :[:digit:]]{11} [._[:alnum:]-]+ postfix/smtpd?\[[[:digit:]]+\]: ((Anonymous|Trusted|Verified) )?TLS connection established (to|from) [^[:space:]]+: (TLSv1(\.[12])?|SSLv[23]) with cipher [^[:space:]]+ \([/[:digit:]]+ bits\)$
+^\w{3} [ :[:digit:]]{11} [._[:alnum:]-]+ postfix/smtpd\[[[:digit:]]+\]: warning: hostname [^ ]+ does not resolve to address ([0-9\.]+|[0-9a-f:]+)(: Name or service not known)?$

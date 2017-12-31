@@ -1,0 +1,67 @@
+Template: task-teacats/config
+Type: multiselect
+Choices: Hostname, Network, SSH, Postfix, NTP
+Default: Hostname, Network, SSH, Postfix, NTP
+Description: Select Package to Configure
+ Select which other packages task-teacats should automatically
+ configure for you.
+
+Template: task-teacats/hostname
+Type: string
+Default: ${default}
+Description: Machine Hostname
+ Fully-Qualified Hostname of the machine
+
+Template: task-teacats/interface
+Type: select
+Choices: ${choices}
+Default: ${default}
+Description: Network Interface
+ Name of the network interface
+
+Template: task-teacats/address-ipv4
+Type: string
+Default:
+Description: Network Interface IPv4 Address
+ Address of the network interface
+
+Template: task-teacats/netmask-ipv4
+Type: string
+Default: 24
+Description: Network Interface IPv4 Network Mask
+ Network mark of the network interface
+
+Template: task-teacats/gateway-ipv4
+Type: string
+Description: Network Interface IPv4 Default Gateway
+ Default Gateway of the network interface
+
+Template: task-teacats/address-local
+Type: string
+Default: 192.168.0.0
+Description: Network Interface Local Address
+ Address of the network interface
+
+Template: task-teacats/netmask-local
+Type: string
+Default: 17
+Description: Network Interface Local Network Mask
+ Network mark of the network interface
+
+Template: task-teacats/address-ipv6
+Type: string
+Default:
+Description: Network Interface IPv6 Address
+ Address of the network interface
+
+Template: task-teacats/netmask-ipv6
+Type: string
+Default: 64
+Description: Network Interface IPv6 Network Mask
+ Network mark of the network interface
+
+Template: task-teacats/gateway-ipv6
+Type: string
+Default: fe80::1
+Description: Network Interface IPv6 Default Gateway
+ Default Gateway of the network interface

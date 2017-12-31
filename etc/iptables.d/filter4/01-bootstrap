@@ -1,0 +1,15 @@
+# Networking Control Protocols
+# vim: nospell
+
+-A INPUT -i lo -j ACCEPT
+-A INPUT -p icmp --icmp-type redirect -j DROP
+-A INPUT -p icmp -j ACCEPT
+
+-A OUTPUT -o lo -j ACCEPT
+-A OUTPUT -p icmp -j ACCEPT
+
+# Active connection filter
+-A established -m conntrack --ctstate ESTABLISHED -j ACCEPT
+-A established -p tcp -m tcp --tcp-flags SYN,RST RST -j DROP
+-A established -p tcp -m tcp --tcp-flags SYN,RST,ACK,FIN ACK,FIN -j DROP
+-A established -j RETURN

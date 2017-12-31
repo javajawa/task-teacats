@@ -1,0 +1,62 @@
+Source: task-tescats
+Package: task-teacats
+Version: 1.15-1
+Section: tasks
+Priority: important
+Architecture: all
+Origin: tea-cats
+Essential: yes
+Build-Depends: make, gzip
+Pre-Depends: postfix, openssh-server, ntp, debconf
+Depends: apt-listchanges,
+ unattended-upgrades,
+ iptablesd,
+ rsyslog,
+ sudo,
+ lsof,
+ dotfiles-benedict,
+ dotfiles-root,
+ cron,
+ man-db,
+ logcheck,
+ udev,
+ iproute2,
+ cruft-ng
+Maintainer: Benedict Harcourt <ben@tea-cats.co.uk>
+Description: Automated configuration and dependency loader for Tea Cats servers
+ This package, marked essential, depends on all packages required to
+ build a functional and integrated Tea Cats server, and perform a number
+ of automatic configuration of various parts of the server to improve
+ security.
+ .
+ These configuration options assume that the server is running within the
+ Tea Cats virtual network, and will attempt to both use this for acquiring
+ data, and configure the network on the assumption this is available.
+ .
+ Package dependency groups:
+ .
+  * Kernel/Device interfaces (udev, iproute)
+  * Infrastructure (SSH, NTP, Mail)
+  * Security (iptables, unattended-upgrades, logcheck)
+  * Configuration (dotfiles-{benedict,root})
+ .
+ Required automatic configuration:
+ .
+  * Add various sysctl options to improve network security
+  * Add empty /etc/shutdown.allow file (no users can shutdown)
+  * Add empty /etc/cron.allow file (no users can use cron)
+  * Configure syslog to use the fully-qualified domain name
+  * Configure /etc/resolv.conf to use internal DNS servers
+  * Basic firewall rules, e.g. DNS, SSH, SMTP, NTP, APT, logs
+ .
+ Optional automated configuration:
+ .
+  * Hostname (and hosts file)
+  * Network Configuration
+  * SSH Configuration
+  * NTP Configuration
+  * Postfix Configuration
+ .
+ All old configuration files will be backed up next to the new file
+ where possible, or in the directory above where all files in the
+ directory would be read.

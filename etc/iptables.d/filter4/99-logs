@@ -1,0 +1,19 @@
+# Unmatched Packets
+
+# Accept active connections not already filtered
+-A INPUT -j established
+-A OUTPUT -j established
+
+# Drop broken end of connection packets
+-A INPUT -p tcp -m tcp --tcp-flags SYN,RST,ACK,FIN SYN,ACK -j REJECT --reject-with icmp-port-unreachable
+
+# (Log) and reject other inbound packets
+#-A INPUT -j LOG --log-prefix "iptables: Inbound " --log-level 4
+-A INPUT -j REJECT --reject-with icmp-port-unreachable
+
+# Log other outbound packets
+-A OUTPUT -j LOG --log-prefix "iptables: Outbound " --log-level 6 --log-uid
+
+# Log and drop forwarding attempts
+-A FORWARD -j LOG --log-prefix "iptables: Forward " --log-level 4
+-A FORWARD -j DROP

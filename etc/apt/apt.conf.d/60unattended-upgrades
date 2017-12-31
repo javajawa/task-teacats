@@ -1,0 +1,23 @@
+# see 20periodic and 50unatttended-upgrades for notes
+
+APT::Periodic::Enable "1";
+APT::Periodic::Update-Package-Lists "1";
+APT::Periodic::Download-Upgradeable-Packages "1";
+APT::Periodic::Unattended-Upgrade "1";
+APT::Periodic::AutocleanInterval "28";
+#APT::Periodic::Verbose "0";
+
+Unattended-Upgrade::Origins-Pattern {
+	"origin=Debian,archive=testing,label=Debian";
+	"origin=Debian,archive=stable,label=Debian-Security";
+	"origin=Debian,archive=oldstable,label=Debian-Security";
+};
+
+Unattended-Upgrade::AutoFixInterruptedDpkg "true";
+Unattended-Upgrade::MinimalSteps "true";
+Unattended-Upgrade::InstallOnShutdown "false";
+Unattended-Upgrade::Mail "audit";
+Unattended-Upgrade::MailOnlyOnError "false";
+Unattended-Upgrade::Remove-Unused-Dependencies "false";
+Unattended-Upgrade::Automatic-Reboot "false";
+

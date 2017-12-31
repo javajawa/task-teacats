@@ -1,0 +1,139 @@
+# vim: nospell
+
+# Set compatability level
+compatibility_level=2
+
+mail_name    = Tea Cats (Postfix Debian GNU/Linux)
+mail_owner   = postfix
+setgid_group = postdrop
+
+# My Host configuration
+myhostname    = ~~hostname~~
+myorigin      = $myhostname
+mydestination =
+mynetworks    = 127.0.0.0/8 [::1]/128 [::ffff:127.0.0.0]/104
+relayhost     = [192.168.174.180]:25
+
+# Connection Banner
+smtpd_banner = $myhostname ESMTP $mail_name
+
+# Networking
+inet_protocols  = all
+inet_interfaces = loopback-only
+
+# Address extension charcter
+recipient_delimiter = +
+
+# Logging timeout configuration
+anvil_rate_time_unit=300s
+anvil_status_update_time=3600s
+
+# Disallow user%host style email addresses
+allow_percent_hack = no
+strict_rfc821_envelopes = yes
+
+# Disallow user@host@domain routing
+allow_untrusted_routing = no
+
+# Add a domain to local emails
+append_at_myorigin = yes
+append_dot_mydomain = no
+
+# Disable user mail notifications
+biff = no
+
+# Use more unique queue IDs
+enable_long_queue_ids = yes
+
+# Add the Original recipient header
+enable_original_recipient = yes
+
+# Where to send errors to
+notify_classes = bounce, resource, policy
+error_notice_recipient = postmaster@tea-cats.co.uk
+
+# Maximum number of Received headers
+hopcount_limit = 16
+
+# Email size limits (64KB, 16MB, 512MB)
+header_size_limit = 65536
+message_size_limit = 67108864
+mailbox_size_limit = 536870912
+
+# TLS Requirements
+tls_export_cipherlist=ALL:!aNULL:!eNULL:@STRENGTH
+tls_low_cipherlist=ALL:!EXPORT:!aNULL:!eNULL:@STRENGTH
+tls_medium_cipherlist=ALL:!LOW:!EXPORT:!RC4:!3DES:!SEED:!aNULL:!eNULL:@STRENGTH
+tls_high_cipherlist=ECDH+AES:AECDH+AES:DH+AES:@STRENGTH
+
+# Domains to act as a relayer for
+relay_domains=
+
+#SMTP =========================================================================
+
+smtp_cname_overrides_servername = no
+smtp_connect_timeout = 8s
+
+smtp_tls_security_level = encrypt
+smtp_tls_policy_maps = hash:/etc/postfix/tls_policy
+
+smtp_tls_CApath = /etc/ssl/certs
+smtp_starttls_timeout = 30s
+smtp_tls_note_starttls_offer = yes
+
+# Our certificates
+smtp_tls_cert_file=/etc/ssl/certs/ssl-cert-snakeoil.pem
+smtp_tls_key_file=/etc/ssl/private/ssl-cert-snakeoil.key
+
+smtp_tls_protocols = !SSLv2, !SSLv3, !TLSv1
+smtp_tls_mandatory_protocols = TLSv1.2
+
+smtp_tls_ciphers = low
+smtp_tls_mandatory_ciphers = high
+smtp_tls_exclude_ciphers = aNULL, eNULL, MD5, DES, 3DES
+
+smtp_tls_session_cache_database = btree:/var/lib/postfix/ssl_cache_smtp
+smtp_tls_loglevel = 1
+
+#SMTPD ========================================================================
+
+# Use TLS opportunistically
+smtpd_tls_security_level = may
+
+smtpd_tls_CApath = /etc/ssl/certs
+smtpd_starttls_timeout = 30s
+
+# TLS Cipher and Protocol Requirements
+smtpd_tls_protocols = !SSLv2, !SSLv3
+smtpd_tls_mandatory_protocols = !SSLv2, !SSLv3, !TLSv1
+
+smtpd_tls_ciphers = low
+smtpd_tls_mandatory_ciphers = medium
+smtpd_tls_exclude_ciphers = aNULL, eNULL, MD5, DES, 3DES
+
+# TLS Session Cache
+smtpd_tls_session_cache_database = btree:/var/lib/postfix/ssl_cache_smtpd
+
+# TLS Logging
+smtpd_tls_loglevel = 1
+smtpd_tls_received_header = yes
+
+# Ask for client certificates
+smtpd_tls_ask_ccert = yes
+
+# Our certificates
+#smtpd_tls_cert_file=/etc/ssl/godaddy/chain.crt
+#smtpd_tls_key_file=/etc/ssl/godaddy/harcourtprogramming.key
+
+# Rules
+smtpd_helo_required = no
+smtpd_client_restrictions = permit_inet_interfaces, permit_mynetworks, permit
+smtpd_helo_restrictions = permit_inet_interfaces, permit_mynetworks, permit
+smtpd_recipient_restrictions = permit
+smtpd_relay_restrictions = permit_mynetworks, reject_unauth_destination
+
+# Elliptcic Curve Config
+smtpd_tls_eecdh_grade = strong
+smtpd_tls_dh1024_param_file = ${config_directory}/dh2048.pem
+smtpd_tls_dh512_param_file = ${config_directory}/dh512.pem
+

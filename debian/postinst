@@ -1,0 +1,335 @@
+#!/bin/sh
+# vim: nospell
+
+config_hostname()
+{
+	# Get the current hostname
+	HOSTNAME=`cat /etc/hostname`
+
+	# Get the new hostname
+	db_get task-teacats/hostname
+
+	# Skip if the hostname is unchanged
+	test ${HOSTNAME} = ${RET} && return 0
+
+	# Set the hostname file
+	HOSTNAME=${RET}
+	echo ${HOSTNAME} >/etc/hostname
+
+	# Set the hostname itself
+	hostname -F /etc/hostname
+
+	TMP=`mktemp`
+
+	# Remove leading host lines from /etc/hosts
+	sed -e '/^127.0.[01].1/d' -e '/^127.0.[01].1/{//,$p}' /etc/hosts >"$TMP"
+
+	# Write the new hosts file
+	{
+		echo "127.0.0.1  $HOSTNAME";
+		echo "127.0.1.1  ${HOSTNAME%%.*} localhost";
+		cat "$TMP"
+	} >/etc/hosts
+
+	rm -f "$TMP"
+
+	# See if we succeeded
+	test "${HOSTNAME}" = `hostname`
+	return $?
+}
+
+config_network()
+{
+	# Have a file to write the new confiuration to
+	TMP=`mktemp`
+	exec 9>"$TMP"
+
+	# Get the name of the interface we want
+	db_get task-teacats/interface
+	INTERFACE=$RET
+
+	# Write the header
+	echo "# Auto-configured Network interface" >&9
+	echo "# vim: nospell" >&9
+	echo "[Match]" >&9
+	echo "Name=$INTERFACE" >&9
+	echo >&9
+	echo "[Network]" >&9
+	echo "Description=$INTERFACE Interface" >&9
+	echo "DHCP=ipv6" >&9
+
+	# Write the IPv6 section, if set
+	db_get task-teacats/address-ipv6
+
+	if [ -n "$RET" ]
+	then
+		ADDR=$RET
+		db_get task-teacats/netmask-ipv6
+
+		echo >&9
+		echo "[Address]" >&9
+		echo "Address=$ADDR/${RET:-128}" >&9
+	fi
+
+	db_get task-teacats/gateway-ipv6
+	if [ -n "$RET" ]
+	then
+		echo >&9
+		echo "[Route]" >&9
+		echo "Gateway=$RET" >&9
+		echo "Scope=global" >&9
+		echo "Destination=::0/0" >&9
+	fi
+
+	# Write the IPv4 section, if set
+	db_get task-teacats/address-ipv4
+
+	if [ -n "$RET" ]
+	then
+		ADDR=$RET
+		db_get task-teacats/netmask-ipv4
+
+		echo >&9
+		echo "[Address]" >&9
+		echo "Address=$ADDR/${RET:-32}" >&9
+	fi
+
+	db_get task-teacats/gateway-ipv4
+	if [ -n "$RET" ]
+	then
+		echo >&9
+		echo "[Route]" >&9
+		echo "Gateway=$RET" >&9
+		echo "Scope=global" >&9
+		echo "Destination=0.0.0.0/0" >&9
+	fi
+
+	db_get task-teacats/address-local
+	if [ -n "$RET" ]
+	then
+		ADDR=$RET
+		db_get task-teacats/netmask-local
+
+		echo >&9
+		echo "[Address]" >&9
+		echo "Address=$ADDR/${RET:-32}" >&9
+	fi
+
+	exec 9>&-
+
+	TARGET=/etc/systemd/network/${INTERFACE}.network
+
+	if test ! -e "$TARGET" || ! diff -q "$TARGET" "$TMP" >/dev/null
+	then
+		echo "Installing new interface file"
+		test -e "$TARGET" && mv "$TARGET" "/etc/network/$INTERFACE.`date +%s`.bak"
+		mv "$TMP" "$TARGET"
+		chmod 644 "$TARGET"
+	fi
+
+	rm -f "$TMP"
+
+	return 0
+}
+
+update_config()
+{
+	TMP=`mktemp`
+	TARGET=$2
+
+	db_get task-teacats/address-local
+	INTERFACE=$RET
+	HOSTNAME=`hostname`
+
+	sed -e "s/~~hostname~~/$HOSTNAME/" -e "s/~~interface~~/$INTERFACE/" "$1" >"$TMP"
+
+	if test ! -e "$TARGET" || ! diff -q "$TARGET" "$TMP" >/dev/null
+	then
+		mv "$TARGET" "$TARGET.`date +%s`.bak"
+		mv "$TMP" "$TARGET"
+		RET=0
+	else
+		RET=1
+	fi
+
+	rm -f "$TMP"
+
+	return $RET
+}
+
+config_postfix()
+{
+	if update_config /usr/share/etc/main.cf /etc/postfix/main.cf
+	then
+		echo "Installing new postfix config"
+		chmod 644 \
+			/etc/postfix/main.cf \
+			/etc/systemd/system/postfix.service.d/override.conf
+
+		systemctl reload postfix.service || return 1
+	fi
+
+	return 0
+}
+
+config_ssh()
+{
+	if update_config /usr/share/etc/sshd_config /etc/ssh/sshd_config
+	then
+		echo "Installing new ssh config"
+		systemctl reload ssh.service || return 1
+	fi
+
+	return 0
+}
+
+config_ntp()
+{
+	if update_config /usr/share/etc/ntp.conf /etc/ntp.conf
+	then
+		echo "Installing new ntp config"
+		chmod 644 /etc/ntp.conf
+		systemctl reload ntp.service || return 1
+	fi
+
+	return 0
+}
+
+# Sets global umasks of 027
+config_umask()
+{
+	if ! grep '^umask' /etc/profile >/dev/null
+	then
+		echo 'umask 027' >> /etc/profile
+	fi
+
+	if ! grep '^umask' /etc/zsh/zshenv >/dev/null
+	then
+		echo 'umask 027' >> /etc/zsh/zshenv
+	fi
+}
+
+# Set up 30 timeout on root sessions
+config_timeout()
+{
+	if ! grep '^	export TMOUT=30' /etc/profile
+	then
+		echo 'test `id -u` -eq 0 &&
+{
+	export TMOUT=30
+	export TIMEOUT=30
+	readonly TMOUT
+	readonly TIMEOUT
+}' >>/etc/profile
+
+	fi
+}
+
+# Restricts the use of `su` to the superuser
+config_su()
+{
+	STAT=`dpkg-statoverride --list /bin/su`
+
+	if [ $? -eq 1 ]
+	then
+		dpkg-statoverride --update --add root root 0700 /bin/su
+	fi
+
+	if [ "$STAT" != "root root 0700 /bin/su" ]
+	then
+		dpkg-statoverride --remove /bin/su
+		dpkg-statoverride --update --add root root 0700 /bin/su
+	fi
+}
+
+config_passwords()
+{
+	exec 3</etc/passwd
+
+	while read USERLINE; do
+		USER=${USERLINE%%:*}
+		USHELL=${USERLINE##*:}
+
+		PASSLINE=`getent shadow "$USER"`
+
+		PASS=${PASSLINE#$USER:}
+		PASS=${PASS%%:*}
+
+		if [ "$USER" = "root" ]
+		then
+			if [ -n "PASS" ]
+			then
+				echo 'root:*' | chpasswd -e
+			fi
+
+			continue
+		fi
+
+		if [ '*' = "$PASS" -o '\!' = "$PASS" ]
+		then
+			if [ "$USHELL" != "/bin/false" ]
+			then
+				chsh "$USER" --shell "/bin/false"
+			fi
+		fi
+	done <&3
+
+	exec 3<&-
+}
+
+config_logcheck()
+{
+	if id logcheck >/dev/null 2>/dev/null
+	then
+		chown -R root:logcheck /etc/logcheck/ignore.d.server
+		chmod -R o-rwx /etc/logcheck/ignore.d.server
+	fi
+}
+
+
+if [ "$1" = install -o "$1" = configure ]
+then
+	. /usr/share/debconf/confmodule
+
+	# Variables for which sections are active
+	DO_HOSTNAME=0
+	DO_NETWORK=0
+	DO_MAIL=0
+	DO_SSH=0
+	DO_NTP=0
+
+	# Get the selected sections as a string
+	db_get task-teacats/config
+
+	# Set up variables
+	SECTIONS=$RET
+	SECTION=
+
+	# Loop over the selected list
+	while [ "$SECTION" != "$SECTIONS" ]
+	do
+		SECTION=${SECTIONS%%, *}
+		SECTIONS=${SECTIONS#*, }
+
+		case ${SECTION} in
+			Hostname) DO_HOSTNAME=1;;
+			Network)  DO_NETWORK=1;;
+			Postfix)  DO_MAIL=1;;
+			SSH)      DO_SSH=1;;
+			NTP)      DO_NTP=1;;
+		esac
+	done
+
+	test ${DO_HOSTNAME} -eq 1 && config_hostname
+	test ${DO_NETWORK} -eq 1 && config_network
+	test ${DO_MAIL} -eq 1 && config_postfix
+	test ${DO_SSH} -eq 1 && config_ssh
+	test ${DO_NTP} -eq 1 && config_ntp
+
+	config_umask
+	config_su
+	config_passwords
+	config_logcheck
+
+	postmap /etc/postfix/tls_policy
+fi

@@ -1,0 +1,14 @@
+#!/bin/sh
+
+VERSION=`uname -r`
+
+echo '/etc/modprobe.d
+/etc/event.disabled
+/etc/event.disabled/hvc0.conf
+/etc/init/tty1.conf
+/etc/init/ttyS0.conf
+/lib/modules'
+
+echo "/lib/modules/$VERSION"
+echo "/lib/modules/$VERSION/modules.dep"
+

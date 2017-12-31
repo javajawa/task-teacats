@@ -1,0 +1,1 @@
+-A OUTPUT -p tcp --dport 80 -m owner --uid-owner _apt -j ACCEPT

@@ -1,0 +1,15 @@
+#!/bin/sh
+
+echo '/etc/postfix/tls_policy.db
+/var/lib/postfix/master.lock
+/var/lib/postfix/prng_exch
+/var/lib/postfix/ssl_cache_smtp.db
+/var/lib/postfix/ssl_cache_smtpd.db
+/var/log/mail.log
+/var/log/mail.info
+/var/log/mail.warn
+/var/log/mail.err'
+
+find /var/log -name mail.*.gz
+find /var/log -name mail.*.1
+
