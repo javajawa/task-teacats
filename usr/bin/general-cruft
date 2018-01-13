@@ -1,0 +1,90 @@
+#!/bin/sh
+# vim: nospell
+
+set -C
+
+test `id -u` -eq 0 || {
+	printf "Must be run as root\n" >&2
+	exit 1
+}
+
+check_task_teacats()
+{
+	test "$1" = "${1%/*}" || return 1
+
+	NAME="/usr/share/etc/$1"
+	FILE="$2"
+
+	test -r "$NAME" || return 1
+	test -r "$FILE" || return 1
+
+	sed -e "s/~~interface~~/$INTERFACE/g" -e "s/~~hostname~~/$HOSTNAME/g" "$NAME" >"$TMPDIR/$1"
+
+	if diff -q "$TMPDIR/$1" "$FILE" >/dev/null
+	then
+		sed -ie "\@$FILE@d" "${TMPDIR}/config"
+	fi
+}
+
+TMPDIR=`mktemp -d`
+export INTERFACE=`inet_addrs ens0 | head -n 1`
+export HOSTNAME=`hostname -f`
+
+exec 3>"${TMPDIR}/email"
+
+printf "Cruft report for " >&3
+cat /etc/hostname >&3
+
+printf "\nChecksum: " >&3
+sha1sum "$0" >&3
+
+debsums -c  >"${TMPDIR}/changes"
+
+printf "\n\n==== Manually Installed Packages ====\n\n" >&3
+apt-mark showmanual >&3
+
+printf "\n\n==== Changed Configuration Files ====\n\n" >&3
+debsums -ec >"${TMPDIR}/config"
+
+# Here are some special cases from task-teacats
+check_task_teacats sshd_config      /etc/ssh/sshd_config
+check_task_teacats main.cf          /etc/postfix/main.cf
+check_task_teacats ntp.conf         /etc/ntp.conf
+check_task_teacats munin-node.conf  /etc/munin/munin-node.conf
+
+echo '/etc/ip
+/etc/crontab
+/etc/zsh/zshenv
+/etc/zsh/zshrc' | egrep -v -f - "${TMPDIR}/config" >"${TMPDIR}/config.filter"
+
+test -s "${TMPDIR}/config.filter" && {
+	printf "\n\n==== Changed Package Files ====\n\n" >&3
+	cat "${TMPDIR}/config.filter" >&3
+}
+
+test -s "${TMPDIR}/changes" && {
+	printf "\n\n==== Changed Package Files ====\n\n" >&3
+	cat "${TMPDIR}/changes" >&3
+}
+
+printf "\n\n" >&3
+cruft --ignore "$TMPDIR" | sed \
+	-e '/^---- broken symlinks: \/ ----/,/^----/{ \@/etc/mtab$@d }' \
+	-e '/^---- missing: dpkg ----/,/^----/{ \@/lib/systemd/system/getty.target.wants/getty-static.service$@d }' \
+>&3
+
+exec 3>&-
+
+{
+	printf "From: Cruft Daemon <cruft@%s>\r\n" "$HOSTNAME"
+	printf "To: Logcheck System Account <logcheck@%s>\r\n" "$HOSTNAME"
+	printf "Subject: Cruft report from %s\r\n" "$HOSTNAME"
+	printf "Content-Type: text/plain\r\n"
+	printf "Content-Transfer-Encoding: base64\r\n\r\n"
+	openssl base64 -in "${TMPDIR}/email"
+
+} | sendmail -i root
+
+rm -Rf "$TMPDIR"
+
+

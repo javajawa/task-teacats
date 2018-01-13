@@ -1,5 +1,12 @@
 #!/bin/sh
 # vim: nospell
+#!/bin/sh
+# vim: nospell
+
+if [ "$1" != install -a "$1" != configure ]
+then
+	exit 0
+fi
 
 config_hostname()
 {
@@ -10,10 +17,13 @@ config_hostname()
 	db_get task-teacats/hostname
 
 	# Skip if the hostname is unchanged
-	test ${HOSTNAME} = ${RET} && return 0
+	test "${HOSTNAME}" = "${RET}" && return 0
+
+	# Set the hostname
+	HOSTNAME=${RET}
+	export HOSTNAME
 
 	# Set the hostname file
-	HOSTNAME=${RET}
 	echo ${HOSTNAME} >/etc/hostname
 
 	# Set the hostname itself
@@ -166,7 +176,7 @@ config_postfix()
 			/etc/postfix/main.cf \
 			/etc/systemd/system/postfix.service.d/override.conf
 
-		systemctl reload postfix.service || return 1
+		systemctl condrestart postfix.service || return 1
 	fi
 
 	return 0
@@ -174,10 +184,34 @@ config_postfix()
 
 config_ssh()
 {
+	if [ ! -s /etc/ssh/ssh_host_ed25519_key ]
+	then
+		echo "Generating ssh ed25519 key"
+		ssh-keygen -t ed25519 -b 512  -f /etc/ssh/ssh_host_ed25519_key -N '' -C "$HOSTNAME"
+	fi
+
+	if [ -s /etc/ssh/ssh_host_rsa_key ]
+	then
+		echo >/etc/ssh/ssh_host_ecdsa_key
+		echo >/etc/ssh/ssh_host_ecdsa_key.pub
+	fi
+
+	if [ -s /etc/ssh/ssh_host_ecdsa_key ]
+	then
+		echo >/etc/ssh/ssh_host_ecdsa_key
+		echo >/etc/ssh/ssh_host_ecdsa_key.pub
+	fi
+
+	if [ -s /etc/ssh/ssh_host_dsa_key ]
+	then
+		echo >/etc/ssh/ssh_host_dsa_key
+		echo >/etc/ssh/ssh_host_dsa_key.pub
+	fi
+
 	if update_config /usr/share/etc/sshd_config /etc/ssh/sshd_config
 	then
 		echo "Installing new ssh config"
-		systemctl reload ssh.service || return 1
+		systemctl condrestart ssh.service || return 1
 	fi
 
 	return 0
@@ -189,7 +223,7 @@ config_ntp()
 	then
 		echo "Installing new ntp config"
 		chmod 644 /etc/ntp.conf
-		systemctl reload ntp.service || return 1
+		systemctl condrestart ntp.service || return 1
 	fi
 
 	return 0
@@ -200,11 +234,13 @@ config_umask()
 {
 	if ! grep '^umask' /etc/profile >/dev/null
 	then
+		echo "Adding umask 027 to /etc/profile"
 		echo 'umask 027' >> /etc/profile
 	fi
 
 	if ! grep '^umask' /etc/zsh/zshenv >/dev/null
 	then
+		echo "Adding umask 027 to /etc/zsh/zshenv"
 		echo 'umask 027' >> /etc/zsh/zshenv
 	fi
 }
@@ -214,6 +250,7 @@ config_timeout()
 {
 	if ! grep '^	export TMOUT=30' /etc/profile
 	then
+		echo "Adding root timeout to /etc/profile"
 		echo 'test `id -u` -eq 0 &&
 {
 	export TMOUT=30
@@ -221,8 +258,21 @@ config_timeout()
 	readonly TMOUT
 	readonly TIMEOUT
 }' >>/etc/profile
-
 	fi
+
+	if ! grep '^    export TMOUT=30' /etc/zsh/zshrc >/dev/null
+	then
+		echo "Adding root timeout to /etc/zsh/zshrc"
+		echo '
+test `id -u` -eq 0 &&
+{
+	export TMOUT=30
+	export TIMEOUT=30
+	readonly TMOUT
+	readonly TIMEOUT
+}' >>/etc/zsh/zshrc
+	fi
+
 }
 
 # Restricts the use of `su` to the superuser
@@ -232,11 +282,13 @@ config_su()
 
 	if [ $? -eq 1 ]
 	then
+		echo "Restricting /bin/su to root"
 		dpkg-statoverride --update --add root root 0700 /bin/su
 	fi
 
 	if [ "$STAT" != "root root 0700 /bin/su" ]
 	then
+		echo "(Re)Restricting /bin/su to root"
 		dpkg-statoverride --remove /bin/su
 		dpkg-statoverride --update --add root root 0700 /bin/su
 	fi
@@ -244,9 +296,12 @@ config_su()
 
 config_passwords()
 {
+	echo "Removing shells from system accounts"
+
 	exec 3</etc/passwd
 
-	while read USERLINE; do
+	while read USERLINE
+	do
 		USER=${USERLINE%%:*}
 		USHELL=${USERLINE##*:}
 
@@ -272,64 +327,55 @@ config_passwords()
 				chsh "$USER" --shell "/bin/false"
 			fi
 		fi
+
+		if [ '\!' = "$PASS" ]
+		then
+			echo "$USER:*" | chpasswd -e
+		fi
 	done <&3
 
 	exec 3<&-
 }
 
-config_logcheck()
-{
-	if id logcheck >/dev/null 2>/dev/null
-	then
-		chown -R root:logcheck /etc/logcheck/ignore.d.server
-		chmod -R o-rwx /etc/logcheck/ignore.d.server
-	fi
-}
+. /usr/share/debconf/confmodule
 
+# Variables for which sections are active
+DO_HOSTNAME=0
+DO_NETWORK=0
+DO_MAIL=0
+DO_SSH=0
+DO_NTP=0
 
-if [ "$1" = install -o "$1" = configure ]
-then
-	. /usr/share/debconf/confmodule
+# Get the selected sections as a string
+db_get task-teacats/config
 
-	# Variables for which sections are active
-	DO_HOSTNAME=0
-	DO_NETWORK=0
-	DO_MAIL=0
-	DO_SSH=0
-	DO_NTP=0
+# Set up variables
+SECTIONS=$RET
+SECTION=
 
-	# Get the selected sections as a string
-	db_get task-teacats/config
+# Loop over the selected list
+while [ "$SECTION" != "$SECTIONS" ]
+do
+	SECTION=${SECTIONS%%, *}
+	SECTIONS=${SECTIONS#*, }
 
-	# Set up variables
-	SECTIONS=$RET
-	SECTION=
+	case ${SECTION} in
+		Hostname) DO_HOSTNAME=1;;
+		Network)  DO_NETWORK=1;;
+		Postfix)  DO_MAIL=1;;
+		SSH)      DO_SSH=1;;
+		NTP)      DO_NTP=1;;
+	esac
+done
 
-	# Loop over the selected list
-	while [ "$SECTION" != "$SECTIONS" ]
-	do
-		SECTION=${SECTIONS%%, *}
-		SECTIONS=${SECTIONS#*, }
+test ${DO_HOSTNAME} -eq 1 && config_hostname
+test ${DO_NETWORK}  -eq 1 && config_network
+test ${DO_MAIL}     -eq 1 && config_postfix
+test ${DO_SSH}      -eq 1 && config_ssh
+test ${DO_NTP}      -eq 1 && config_ntp
 
-		case ${SECTION} in
-			Hostname) DO_HOSTNAME=1;;
-			Network)  DO_NETWORK=1;;
-			Postfix)  DO_MAIL=1;;
-			SSH)      DO_SSH=1;;
-			NTP)      DO_NTP=1;;
-		esac
-	done
+config_umask
+config_su
+config_passwords
 
-	test ${DO_HOSTNAME} -eq 1 && config_hostname
-	test ${DO_NETWORK} -eq 1 && config_network
-	test ${DO_MAIL} -eq 1 && config_postfix
-	test ${DO_SSH} -eq 1 && config_ssh
-	test ${DO_NTP} -eq 1 && config_ntp
-
-	config_umask
-	config_su
-	config_passwords
-	config_logcheck
-
-	postmap /etc/postfix/tls_policy
-fi
+postmap /etc/postfix/tls_policy

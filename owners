@@ -1,0 +1,2 @@
+root	logcheck	00750	/etc/logcheck/
+root	root	00750	/etc/iptables.d/

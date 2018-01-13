@@ -1,12 +1,11 @@
-Source: task-tescats
+Source: task-teacats
 Package: task-teacats
-Version: 1.15-1
 Section: tasks
 Priority: important
 Architecture: all
 Origin: tea-cats
 Essential: yes
-Build-Depends: make, gzip
+Build-Depends: make
 Pre-Depends: postfix, openssh-server, ntp, debconf
 Depends: apt-listchanges,
  unattended-upgrades,
@@ -21,7 +20,9 @@ Depends: apt-listchanges,
  logcheck,
  udev,
  iproute2,
- cruft-ng
+ cruft,
+ dbus,
+ inet_addrs
 Maintainer: Benedict Harcourt <ben@tea-cats.co.uk>
 Description: Automated configuration and dependency loader for Tea Cats servers
  This package, marked essential, depends on all packages required to

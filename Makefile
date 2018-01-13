@@ -1,13 +1,13 @@
 #!/usr/bin/make -f
 
-.PHONY=build
+.PHONY=build clean manifest
 
 build:
-	true
+	@true
 
 clean:
-	true
+	@true
 
 manifest:
-	true
+	@true
 
