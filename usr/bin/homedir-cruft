@@ -14,7 +14,7 @@ do
 	test "$SHELL" = "/bin/false" && continue
 	test "$ME" = "root" -o "$ME" = "$USER" || continue
 
-	find -H "$HOME" -xdev -mtime +1 >"${TMPDIR}/${USER}.raw"
+	find -H "$HOME" -xdev ! -type d -mtime +1 >"${TMPDIR}/${USER}.raw"
 
 	exec 4<"${TMPDIR}/${USER}.raw"
 	exec 5>"${TMPDIR}/${USER}.filter"
@@ -24,11 +24,16 @@ do
 		dpkg --search "$FILE" >/dev/null 2>/dev/null && continue
 
 		DIR=${FILE#$HOME/}
+
+		test "$DIR" = ".viminfo"      && continue
+		test "$DIR" = ".zsh-history"  && continue
+
+		test "$DIR" = ".ssh/known_hosts"     && continue
+
 		DIR=${DIR%%/*}
 
 		test "$DIR" = ".zcompdump" && continue
 		test "$DIR" = ".zshcache"  && continue
-		test "$DIR" = ".aptitude"  && continue
 
 		printf "%s\n" "$FILE" >&5
 	done <&4
@@ -46,5 +51,4 @@ done <&3
 exec 3<&-
 
 rm -Rf "$TMPDIR"
-
 

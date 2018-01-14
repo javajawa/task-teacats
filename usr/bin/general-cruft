@@ -43,7 +43,7 @@ debsums -c  >"${TMPDIR}/changes"
 printf "\n\n==== Manually Installed Packages ====\n\n" >&3
 apt-mark showmanual >&3
 
-printf "\n\n==== Changed Configuration Files ====\n\n" >&3
+#printf "\n\n==== Changed Configuration Files ====\n\n" >&3
 debsums -ec >"${TMPDIR}/config"
 
 # Here are some special cases from task-teacats
@@ -58,7 +58,7 @@ echo '/etc/ip
 /etc/zsh/zshrc' | egrep -v -f - "${TMPDIR}/config" >"${TMPDIR}/config.filter"
 
 test -s "${TMPDIR}/config.filter" && {
-	printf "\n\n==== Changed Package Files ====\n\n" >&3
+	printf "\n\n==== Changed Configuration Files ====\n\n" >&3
 	cat "${TMPDIR}/config.filter" >&3
 }
 
@@ -73,6 +73,9 @@ cruft --ignore "$TMPDIR" | sed \
 	-e '/^---- missing: dpkg ----/,/^----/{ \@/lib/systemd/system/getty.target.wants/getty-static.service$@d }' \
 >&3
 
+printf "\n\n" >&3
+homedir-cruft >&3
+
 exec 3>&-
 
 {
@@ -86,5 +89,4 @@ exec 3>&-
 } | sendmail -i root
 
 rm -Rf "$TMPDIR"
-
 
