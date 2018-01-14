@@ -22,11 +22,13 @@ Depends: apt-listchanges,
  policykit-1,
  iproute2,
  cruft-ng,
+ debsums,
  dbus,
  inet_addrs,
  iputils-ping,
  rsync,
  prometheus-node-exporter
+Recommends: curl
 Maintainer: Benedict Harcourt <ben@tea-cats.co.uk>
 Description: Automated configuration and dependency loader for Tea Cats servers
  This package, marked essential, depends on all packages required to

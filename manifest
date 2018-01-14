@@ -5,6 +5,8 @@
 ./etc/apt/listchanges.conf
 ./etc/apt/sources.list.d/tea-cats.list
 ./etc/apt/trusted.gpg.d/tea-cats.gpg
+./etc/iptables.d/filter4
+./etc/iptables.d/filter6
 ./etc/iptables.d/filter-head
 ./etc/iptables.d/filter4/01-bootstrap
 ./etc/iptables.d/filter4/05-dns
