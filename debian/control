@@ -19,10 +19,14 @@ Depends: apt-listchanges,
  man-db,
  logcheck,
  udev,
+ policykit-1,
  iproute2,
- cruft,
+ cruft-ng,
  dbus,
- inet_addrs
+ inet_addrs,
+ iputils-ping,
+ rsync,
+ prometheus-node-exporter
 Maintainer: Benedict Harcourt <ben@tea-cats.co.uk>
 Description: Automated configuration and dependency loader for Tea Cats servers
  This package, marked essential, depends on all packages required to
