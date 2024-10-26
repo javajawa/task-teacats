@@ -12,23 +12,25 @@ Depends: apt-listchanges,
  iptablesd,
  rsyslog,
  sudo,
- lsof,
  dotfiles-benedict,
  dotfiles-root,
  cron,
- man-db,
  logcheck,
- udev,
- policykit-1,
- iproute2,
  cruft-ng,
  debsums,
+ udev,
+ policykit-1,
  dbus,
  inet-addrs,
- iputils-ping,
+ prometheus-node-exporter,
+ promehteus-node-exporter-collectors
+Recommends: curl,
  rsync,
- prometheus-node-exporter
-Recommends: curl
+ lsof,
+ strace,
+ kitty-terminfo,
+ man-db,
+ iputils-ping
 Maintainer: Benedict Harcourt <ben@tea-cats.co.uk>
 Description: Automated configuration and dependency loader for Tea Cats servers
  This package, marked essential, depends on all packages required to
@@ -42,9 +44,10 @@ Description: Automated configuration and dependency loader for Tea Cats servers
  .
  Package dependency groups:
  .
-  * Kernel/Device interfaces (udev, iproute)
+  * Kernel/Device interfaces (udev, policykit)
   * Infrastructure (SSH, NTP, Mail)
-  * Security (iptables, unattended-upgrades, logcheck)
+  * Security (iptables, unattended-upgrades, logcheck, cruft)
+  * Monitoring (node-exporter)
   * Configuration (dotfiles-{benedict,root})
  .
  Required automatic configuration:
