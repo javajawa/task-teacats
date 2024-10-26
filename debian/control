@@ -24,7 +24,7 @@ Depends: apt-listchanges,
  cruft-ng,
  debsums,
  dbus,
- inet_addrs,
+ inet-addrs,
  iputils-ping,
  rsync,
  prometheus-node-exporter
