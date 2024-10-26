@@ -23,7 +23,7 @@ Depends: apt-listchanges,
  dbus,
  inet-addrs,
  prometheus-node-exporter,
- promehteus-node-exporter-collectors
+ prometheus-node-exporter-collectors
 Recommends: curl,
  rsync,
  lsof,
