@@ -1,9 +1,7 @@
 #!/bin/sh
 # vim: nospell
-#!/bin/sh
-# vim: nospell
 
-if [ "$1" != install -a "$1" != configure ]
+if [ "$1" != install ] && [ "$1" != configure ]
 then
 	exit 0
 fi
@@ -11,7 +9,7 @@ fi
 config_hostname()
 {
 	# Get the current hostname
-	HOSTNAME=`cat /etc/hostname`
+	HOSTNAME=$(cat /etc/hostname)
 
 	# Get the new hostname
 	db_get task-teacats/hostname
@@ -24,12 +22,12 @@ config_hostname()
 	export HOSTNAME
 
 	# Set the hostname file
-	echo ${HOSTNAME} >/etc/hostname
+	echo "${HOSTNAME}" >/etc/hostname
 
 	# Set the hostname itself
 	hostname -F /etc/hostname
 
-	TMP=`mktemp`
+	TMP=$(mktemp)
 
 	# Remove leading host lines from /etc/hosts
 	sed -e '/^127.0.[01].1/d' -e '/^127.0.[01].1/{//,$p}' /etc/hosts >"$TMP"
@@ -44,14 +42,14 @@ config_hostname()
 	rm -f "$TMP"
 
 	# See if we succeeded
-	test "${HOSTNAME}" = `hostname`
+	test "${HOSTNAME}" = "$(hostname)"
 	return $?
 }
 
 config_network()
 {
-	# Have a file to write the new confiuration to
-	TMP=`mktemp`
+	# Have a file to write the new configuration to
+	TMP=$(mktemp)
 	exec 9>"$TMP"
 
 	# Get the name of the interface we want
@@ -66,6 +64,7 @@ config_network()
 	echo >&9
 	echo "[Network]" >&9
 	echo "Description=$INTERFACE Interface" >&9
+	echo "Domains=tea-cats.co.uk" >&9
 	echo "DHCP=ipv6" >&9
 
 	# Write the IPv6 section, if set
@@ -132,7 +131,7 @@ config_network()
 	if test ! -e "$TARGET" || ! diff -q "$TARGET" "$TMP" >/dev/null
 	then
 		echo "Installing new interface file"
-		test -e "$TARGET" && mv "$TARGET" "/etc/network/$INTERFACE.`date +%s`.bak"
+		test -e "$TARGET" && mv "$TARGET" "/etc/network/$INTERFACE.$(date +%s).bak"
 		mv "$TMP" "$TARGET"
 		chmod 644 "$TARGET"
 	fi
@@ -144,18 +143,29 @@ config_network()
 
 update_config()
 {
-	TMP=`mktemp`
+	TMP=$(mktemp)
 	TARGET=$2
 
+	HOSTNAME=$(hostname)
+	db_get task-teacats/interface
+	INTERFACE="$RET"
+	db_get task-teacats/address-ipv4
+	PUBLIC_IPV4="$RET"
+	db_get task-teacats/address-ipv6
+	PUBLIC_IPV6="$RET"
 	db_get task-teacats/address-local
-	INTERFACE=$RET
-	HOSTNAME=`hostname`
+	LOCAL_IPV4="$RET"
 
-	sed -e "s/~~hostname~~/$HOSTNAME/" -e "s/~~interface~~/$INTERFACE/" "$1" >"$TMP"
+	sed "$1" >"$TMP" \
+	  -e "s/~~hostname~~/$HOSTNAME/" \
+	  -e "s/~~interface~~/$INTERFACE/" \
+	  -e "s/~~ipv4_public~~/$PUBLIC_IPV4/" \
+	  -e "s/~~ipv6_public~~/$PUBLIC_IPV6/" \
+	  -e "s/~~ipv4_local~~/$LOCAL_IPV4/"
 
 	if test ! -e "$TARGET" || ! diff -q "$TARGET" "$TMP" >/dev/null
 	then
-		mv "$TARGET" "$TARGET.`date +%s`.bak"
+		mv "$TARGET" "$TARGET.$(date +%s).bak"
 		mv "$TMP" "$TARGET"
 		RET=0
 	else
@@ -229,7 +239,7 @@ config_ntp()
 	return 0
 }
 
-# Sets global umasks of 027
+# Sets global umask of 027
 config_umask()
 {
 	if ! grep '^umask' /etc/profile >/dev/null
@@ -251,7 +261,7 @@ config_timeout()
 	if ! grep '^	export TMOUT=30' /etc/profile
 	then
 		echo "Adding root timeout to /etc/profile"
-		echo 'test `id -u` -eq 0 &&
+		echo 'test "$(id -u)" -eq 0 &&
 {
 	export TMOUT=30
 	export TIMEOUT=30
@@ -264,7 +274,7 @@ config_timeout()
 	then
 		echo "Adding root timeout to /etc/zsh/zshrc"
 		echo '
-test `id -u` -eq 0 &&
+test "$(id -u)" -eq 0 &&
 {
 	export TMOUT=30
 	export TIMEOUT=30
@@ -278,7 +288,7 @@ test `id -u` -eq 0 &&
 # Restricts the use of `su` to the superuser
 config_su()
 {
-	STAT=`dpkg-statoverride --list /bin/su`
+	STAT=$(dpkg-statoverride --list /bin/su)
 
 	if [ $? -eq 1 ]
 	then
@@ -286,7 +296,7 @@ config_su()
 		dpkg-statoverride --update --add root root 0700 /bin/su
 	fi
 
-	if [ "$STAT" != "root root 0700 /bin/su" ]
+	if [ "$STAT" != "root root 700 /bin/su" ]
 	then
 		echo "(Re)Restricting /bin/su to root"
 		dpkg-statoverride --remove /bin/su
@@ -300,19 +310,19 @@ config_passwords()
 
 	exec 3</etc/passwd
 
-	while read USERLINE
+	while read -r USERLINE
 	do
 		USER=${USERLINE%%:*}
-		USHELL=${USERLINE##*:}
+		USER_SHELL=${USERLINE##*:}
 
-		PASSLINE=`getent shadow "$USER"`
+		PASS_LINE=$(getent shadow "$USER")
 
-		PASS=${PASSLINE#$USER:}
+		PASS=${PASS_LINE#"$USER:"}
 		PASS=${PASS%%:*}
 
 		if [ "$USER" = "root" ]
 		then
-			if [ -n "PASS" ]
+			if [ -n "$PASS" ]
 			then
 				echo 'root:*' | chpasswd -e
 			fi
@@ -320,9 +330,9 @@ config_passwords()
 			continue
 		fi
 
-		if [ '*' = "$PASS" -o '\!' = "$PASS" ]
+		if [ '*' = "$PASS" ] || [ '\!' = "$PASS" ]
 		then
-			if [ "$USHELL" != "/bin/false" ]
+			if [ "$USER_SHELL" != "/bin/false" ]
 			then
 				chsh "$USER" --shell "/bin/false"
 			fi

@@ -3,8 +3,8 @@
 
 set -C
 
-TMPDIR=`mktemp -d`
-ME=`id -nu`
+TMPDIR=$(mktemp -d)
+ME=$(id -nu)
 
 exec 3</etc/passwd
 
@@ -12,6 +12,7 @@ IFS=:
 while read -r USER TMP ID GID DATA HOME SHELL
 do
 	test "$SHELL" = "/bin/false" && continue
+	test "$SHELL" = "/usr/sbin/nologin" && continue
 	test "$ME" = "root" -o "$ME" = "$USER" || continue
 
 	find -H "$HOME" -xdev ! -type d -mtime +1 >"${TMPDIR}/${USER}.raw"

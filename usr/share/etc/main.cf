@@ -12,7 +12,7 @@ myhostname    = ~~hostname~~
 myorigin      = $myhostname
 mydestination =
 mynetworks    = 127.0.0.0/8 [::1]/128 [::ffff:127.0.0.0]/104
-relayhost     = [192.168.174.180]:25
+relayhost     = [mail.tea-cats.co.uk]:25
 
 # Connection Banner
 smtpd_banner = $myhostname ESMTP $mail_name
@@ -121,10 +121,6 @@ smtpd_tls_received_header = yes
 # Ask for client certificates
 smtpd_tls_ask_ccert = yes
 
-# Our certificates
-#smtpd_tls_cert_file=/etc/ssl/godaddy/chain.crt
-#smtpd_tls_key_file=/etc/ssl/godaddy/harcourtprogramming.key
-
 # Rules
 smtpd_helo_required = no
 smtpd_client_restrictions = permit_inet_interfaces, permit_mynetworks, permit
@@ -136,4 +132,3 @@ smtpd_relay_restrictions = permit_mynetworks, reject_unauth_destination
 smtpd_tls_eecdh_grade = strong
 smtpd_tls_dh1024_param_file = ${config_directory}/dh2048.pem
 smtpd_tls_dh512_param_file = ${config_directory}/dh512.pem
-

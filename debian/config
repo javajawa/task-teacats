@@ -6,7 +6,6 @@
 # Variables for which sections are active
 DO_HOSTNAME=0
 DO_NETWORK=0
-DO_MAIL=0
 DO_SSH=0
 DO_NTP=0
 
@@ -30,7 +29,6 @@ do
 	case ${SECTION} in
 		Hostname) DO_HOSTNAME=1;;
 		Network)  DO_NETWORK=1;;
-		Postfix)  DO_MAIL=1;;
 		SSH)      DO_SSH=1;;
 		NTP)      DO_NTP=1;;
 	esac
@@ -39,9 +37,9 @@ done
 # Configure the remaining questions
 
 # We need a hostname for the hostname module
-if [ $(( $DO_HOSTNAME )) -gt 0 ]
+if [ "$DO_HOSTNAME" -gt 0 ]
 then
-	HOSTNAME=`hostname -f || true`
+	HOSTNAME=$(hostname -f || true)
 
 	db_beginblock
 	db_subst task-teacats/hostname default "${HOSTNAME}"
@@ -53,24 +51,20 @@ db_go
 
 if [ ${DO_NETWORK} -ne 0 ]
 then
-	TMP=`mktemp interfaces.XXXXXX`
-	ip link | sed -ne '/link\/ether/{x;p;d;}; x' | \
-		awk '-F: ' '{ print $2 }' >"$TMP"
+	get_interfaces()
+	{
+		find -L /sys/class/net -mindepth 1 -maxdepth 1 -type d | while read -r INTERFACE
+		do
+			test -e "${INTERFACE}/type" || continue
+			read -r IFACE_TYPE <"${INTERFACE}/type"
+			test "$IFACE_TYPE" -eq 1 || continue
+			printf "%s, " "${INTERFACE#/sys/class/net/}"
+		done
+	}
 
-	INTERFACES=
-	DEFUALT=
-	while read INTERFACE
-	do
-		if [ -z "$DEFAULT" ]
-		then
-			DEFAULT=${INTERFACE}
-		fi
+	INTERFACES=$(get_interfaces)
 
-		INTERFACES="${INTERFACES}, ${INTERFACE}"
-	done <"$TMP"
-
-	rm "$TMP"
-
+	DEFAULT=${INTERFACES%%, *}
 	INTERFACES=${INTERFACES#, *}
 
 	db_beginblock
@@ -93,10 +87,10 @@ then
 
 	db_endblock
 
-	unset TMP INTERFACES INTERFACE DEFAULT
+	unset INTERFACES DEFAULT
 
 # We still need to know the internal IP for SSH and NTP config
-elif [ $(( ${DO_SSH} + ${DO_NTP} )) -gt 0 ]
+elif [ $(( DO_SSH + DO_NTP )) -gt 0 ]
 then
 	db_beginblock
 
