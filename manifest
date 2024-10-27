@@ -13,6 +13,7 @@
 ./etc/iptables.d/filter4/10-ntp
 ./etc/iptables.d/filter4/10-smtp
 ./etc/iptables.d/filter4/10-ssh
+./etc/iptables.d/filter4/10-metrics
 ./etc/iptables.d/filter4/99-logs
 ./etc/iptables.d/filter6/01-bootstrap
 ./etc/iptables.d/filter6/10-apt
