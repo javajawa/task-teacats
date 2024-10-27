@@ -9,6 +9,7 @@ Build-Depends: make
 Pre-Depends: postfix, openssh-server, ntp, debconf
 Depends: apt-listchanges,
  unattended-upgrades,
+ whiptail,
  iptablesd,
  rsyslog,
  sudo,
