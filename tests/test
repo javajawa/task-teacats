@@ -1,0 +1,15 @@
+#!/bin/sh
+
+ARGS="-v"
+
+DIR=$(readlink -f "$0")
+DIR="${DIR%/*}"
+
+for FILTER in $(find "$DIR/../etc/logcheck/ignore.d.server" -type f ! -name '.*')
+do
+	ARGS="$ARGS -f '$FILTER'"
+done
+
+LINES=$(echo egrep $ARGS "'$DIR/${1:-logcheck-test-set}'" | sh | tee /dev/stderr | wc -l)
+printf "%d of " "$LINES"
+wc -l "$DIR/${1:-logcheck-test-set}"

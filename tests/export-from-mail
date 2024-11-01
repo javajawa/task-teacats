@@ -1,0 +1,19 @@
+#!/bin/sh
+
+for FILE in /home/benedict/.mail/logcheck/*/*
+do
+	printf >&2 "%s\n" "$FILE"
+	sed -e '1,/=3D-/d' -e :a -e '/=$/N; s/=\n//; ta' -e '/^$/d' -e 's/=3D/=/g' "$FILE"
+done \
+| grep -E -e '^[0-9]{4}-[0-9]{2}-[0-9]{2}T' \
+| sort -k 3,6 >>logcheck-test-set-new
+
+for FILE in /home/benedict/.mail/logcheck/*/*
+do
+	printf >&2 "%s\n" "$FILE"
+	sed -e '1,/=3D-/d' -e :a -e '/=$/N; s/=\n//; ta' -e '/^$/d' -e 's/=3D/=/g' "$FILE"
+done \
+| grep -E '^\w{3} [ :[:digit:]]{11} [._[:alnum:]-]+' \
+| sort -k 5,8 >>logcheck-test-set-old
+
+wc -l logcheck-test-set logcheck-test-set-old logcheck-test-set-new

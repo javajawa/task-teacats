@@ -21,6 +21,8 @@
 ./etc/iptables.d/filter6/99-logs
 ./etc/logcheck/ignore.d.server/apache-extra
 ./etc/logcheck/ignore.d.server/dns-extra
+./etc/logcheck/ignore.d.server/factorio
+./etc/logcheck/ignore.d.server/grafana
 ./etc/logcheck/ignore.d.server/ipsec-extra
 ./etc/logcheck/ignore.d.server/opendkim
 ./etc/logcheck/ignore.d.server/postfix-extra
