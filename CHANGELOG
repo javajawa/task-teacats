@@ -1,6 +1,9 @@
 task-teacats (unversioned)
 
   * Set up changelog properly
+  * Tidy up general-cruft script
+     - Use non-backtick subshells
+     - Remove references to Munin
 
  -- Benedict Harcourt <ben@tea-cats.co.uk>  Undated
 

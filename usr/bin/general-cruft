@@ -3,7 +3,7 @@
 
 set -C
 
-test `id -u` -eq 0 || {
+test "$(id -u)" -eq 0 || {
 	printf "Must be run as root\n" >&2
 	exit 1
 }
@@ -26,9 +26,9 @@ check_task_teacats()
 	fi
 }
 
-TMPDIR=`mktemp -d`
-export INTERFACE=`inet_addrs ens0 | head -n 1`
-export HOSTNAME=`hostname -f`
+TMPDIR=$(mktemp -d)
+export INTERFACE="$(inet_addrs | grep -v lo | head -n 1)"
+export HOSTNAME="$(hostname -f)"
 
 exec 3>"${TMPDIR}/email"
 
@@ -43,14 +43,13 @@ debsums -c  >"${TMPDIR}/changes"
 printf "\n\n==== Manually Installed Packages ====\n\n" >&3
 apt-mark showmanual >&3
 
-#printf "\n\n==== Changed Configuration Files ====\n\n" >&3
+printf "\n\n==== Changed Configuration Files ====\n\n" >&3
 debsums -ec >"${TMPDIR}/config"
 
 # Here are some special cases from task-teacats
 check_task_teacats sshd_config      /etc/ssh/sshd_config
 check_task_teacats main.cf          /etc/postfix/main.cf
 check_task_teacats ntp.conf         /etc/ntp.conf
-check_task_teacats munin-node.conf  /etc/munin/munin-node.conf
 
 echo '/etc/ip
 /etc/crontab
