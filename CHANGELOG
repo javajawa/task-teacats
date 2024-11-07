@@ -4,6 +4,7 @@ task-teacats (unversioned)
   * Tidy up general-cruft script
      - Use non-backtick subshells
      - Remove references to Munin
+  * Reenable SCP support in the SSHD configuration.
 
  -- Benedict Harcourt <ben@tea-cats.co.uk>  Undated
 
