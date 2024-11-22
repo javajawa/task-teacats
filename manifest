@@ -27,7 +27,7 @@
 ./etc/logcheck/ignore.d.server/opendkim
 ./etc/logcheck/ignore.d.server/postfix-extra
 ./etc/logcheck/ignore.d.server/rsyslog-extra
-./etc/logcheck/ignore.d.server/snergebot
+./etc/logcheck/ignore.d.server/projects
 ./etc/logcheck/ignore.d.server/ssh-extra
 ./etc/logcheck/ignore.d.server/systemd-extra
 ./etc/postfix/tls_policy

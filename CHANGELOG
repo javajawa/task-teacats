@@ -5,6 +5,8 @@ task-teacats (unversioned)
      - Use non-backtick subshells
      - Remove references to Munin
   * Reenable SCP support in the SSHD configuration.
+  * Rename logcheck file 'snergebot' to 'projects', as it contains things other than Snerge.
+  * Add logcheck exception for Bleysblade.
 
  -- Benedict Harcourt <ben@tea-cats.co.uk>  Undated
 
