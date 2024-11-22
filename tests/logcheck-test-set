@@ -2682,6 +2682,7 @@ Nov 01 16:40:28 kestrel.tea-cats.co.uk sshd[608309]: User root from 2a02:d480:4c
 2024-10-31T14:47:18.420733+00:00 kestrel.tea-cats.co.uk sshd[570614]: User root from 2a02:d480:4c0:10b4:42::7 not allowed because none of user's groups are listed in AllowGroups
 2024-10-31T15:47:19.061241+00:00 kestrel.tea-cats.co.uk sshd[571849]: User root from 2a02:d480:4c0:10b4:42::7 not allowed because none of user's groups are listed in AllowGroups
 2024-11-01T16:40:28.381049+00:00 kestrel.tea-cats.co.uk sshd[608309]: User root from 2a02:d480:4c0:10b4:42::7 not allowed because none of user's groups are listed in AllowGroups
+Oct 31 15:47:18 hawk.tea-cats.co.uk sshd[262034]: User root from 2a02:d480:4c0:10b4:42::7 not allowed because none of user's groups are listed in AllowGroups
 2024-11-22T13:08:20.383224+00:00 lyrebird.tea-cats.co.uk dotnet[716899]: 22/11/2024 13:08:20: Connection
 2024-11-22T13:08:20.538964+00:00 lyrebird.tea-cats.co.uk dotnet[716899]: 22/11/2024 13:08:20: Dagger Shark slows down a bit
 2024-11-22T13:08:20.386124+00:00 lyrebird.tea-cats.co.uk dotnet[716899]: 22/11/2024 13:08:20: Disconnection
@@ -2690,3 +2691,7 @@ Nov 22 13:08:20 lyrebird.tea-cats.co.uk dotnet[716899]: 22/11/2024 13:08:20: Con
 Nov 22 13:08:20 lyrebird.tea-cats.co.uk dotnet[716899]: 22/11/2024 13:08:20: Dagger Shark slows down a bit
 Nov 22 13:08:20 lyrebird.tea-cats.co.uk dotnet[716899]: 22/11/2024 13:08:20: Disconnection
 Nov 22 13:08:20 lyrebird.tea-cats.co.uk dotnet[716899]: 22/11/2024 13:08:20: Dispose
+Nov 22 07:55:26 ibis.tea-cats.co.uk named[419]: 22-Nov-2024 07:55:26.709 dnssec: info: view internal: validating _matrix._tcp.wieg.online/SRV: no valid signature found
+Nov 22 07:57:09 ibis.tea-cats.co.uk named[419]: 22-Nov-2024 07:57:09.786 dnssec: info: view internal:   validating _matrix-fed._tcp.wieg.online/NSEC: no valid signature found
+2024-11-22T07:55:26.648706+00:00 ibis.tea-cats.co.uk named[419]: 22-Nov-2024 07:55:26.645 dnssec: info: view internal:   validating _matrix-fed._tcp.wieg.online/NSEC: no valid signature found
+2024-11-22T07:55:26.711721+00:00 ibis.tea-cats.co.uk named[419]: 22-Nov-2024 07:55:26.709 dnssec: info: view internal: validating _matrix._tcp.wieg.online/SRV: no valid signature found

@@ -7,6 +7,7 @@ task-teacats (unversioned)
   * Reenable SCP support in the SSHD configuration.
   * Rename logcheck file 'snergebot' to 'projects', as it contains things other than Snerge.
   * Add logcheck exception for Bleysblade.
+  * Suppress warnings for DNSSEC for _ prefixed DNS names
 
  -- Benedict Harcourt <ben@tea-cats.co.uk>  Undated
 
