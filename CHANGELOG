@@ -1,3 +1,9 @@
+task-teacats (2.3.0-2)
+
+  * Fix build issue when the changelog directory is missing
+
+ -- Benedict Harcourt <ben@tea-cats.co.uk>  Fri, 22 Nov 2024 20:42:30 +0000
+
 task-teacats (2.3.0-1)
 
   * Set up changelog properly

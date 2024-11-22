@@ -2,14 +2,18 @@
 
 .PHONY=build clean manifest
 
-build: usr/share/doc/task-teacats/changelog.Debian.gz
+CHANGELOG=usr/share/doc/task-teacats/changelog.Debian.gz
+
+build: $(CHANGELOG)
 	@true
 
 clean:
-	@rm -vf usr/share/doc/task-teacats/changelog.Debian.gz
+	@rm -vf "$(CHANGELOG)"
+	@-rmdir -vp "$(dir $(CHANGELOG))"
 
 manifest:
 	@true
 
 usr/share/doc/task-teacats/changelog.Debian.gz: CHANGELOG
+	@mkdir -vp "$(dir $@)"
 	gzip --keep "$^" --stdout >"$@"
