@@ -1,0 +1,184 @@
+task-teacats (unversioned)
+
+  * Set up changelog properly
+
+ -- Benedict Harcourt <ben@tea-cats.co.uk>  Undated
+
+task-teacats (1.15-1) stable
+
+  * Remove /etc/ftpusers file.
+
+ -- Benedict Harcourt <ben@tea-cats.co.uk>  Sun, 31 Dec 2017 13:28:50 +0000
+
+task-teacats (1.14-1) stable
+
+  * Add cruft explanations for:
+   - Postfix log files
+   - Postfix chroot files
+   - Linode kernel files (current version only).
+
+ -- Benedict Harcourt <ben@tea-cats.co.uk>  Sat, 25 Feb 2017 10:52:39 +0000
+
+task-teacats (1.13-1) stable
+
+  * Add cruft-ng to the dependency list.
+
+ -- Benedict Harcourt <ben@tea-cats.co.uk>  Sat, 25 Feb 2017 09:58:17 +0000
+
+task-teacats (1.12-2) stable
+
+  * Open firewall for DHCPv6.
+
+ -- Benedict Harcourt <ben@tea-cats.co.uk>  Sat, 25 Feb 2017 09:15:32 +0000
+
+task-teacats (1.12-1) stable
+
+  * Enable DHCPv6 in main ethernet configuration.
+
+ -- Benedict Harcourt <ben@tea-cats.co.uk>  Fri, 24 Feb 2017 22:13:51 +0000
+
+task-teacats (1.11-1) stable
+
+  * Clean up multiple GNUPG lines in systemd syslog.
+  * Fix permissions of /etc/systemd/system/postfix.service.d/override.conf
+
+ -- Benedict Harcourt <ben@tea-cats.co.uk>  Fri, 24 Feb 2017 21:18:00 +0000
+
+task-teacats (1.10-1) stable
+
+  * Update SSH logcheck exceptions to suppress some of the
+    newer attempts to examine or break the protocol:
+
+    - Changing username in preauth
+    - Offering only diffie-hellman group 1 key exchange
+    - Offering a really weird set of encrpytion ciphers
+
+ -- Benedict Harcourt <ben@tea-cats.co.uk>  Fri, 17 Feb 2017 08:26:50 +0000
+
+task-teacats (1.9-1) stable
+
+  * Allow authentication methods other than RSA.
+
+ -- Benedict Harcourt <ben@tea-cats.co.uk>  Fri, 03 Feb 2017 16:43:06 +0000
+
+task-teacats (1.8-1) stable
+
+  * Remove SSHv1 config options from sshd_config after Debian upgrade.
+
+ -- Benedict Harcourt <ben@tea-cats.co.uk>  Sun, 22 Jan 2017 22:09:01 +0000
+
+task-teacats (1.7-1) stable
+
+  * Add logcheck exception for rsyslog HUP alert.
+  * Remove commented search directive from resolv.conf
+
+ -- Benedict Harcourt <ben@tea-cats.co.uk>  Sun, 11 Dec 2016 08:56:57 +0000
+
+task-teacats (1.6-2) stable
+
+  * Fix issue where hostname was not being set to configured value.
+  * Fix issue where network file was not created with correct permissions.
+  * Fix issue where systemd-networkd would not be automatically enabled.
+
+ -- Benedict Harcourt <ben@tea-cats.co.uk>  Sat, 10 Dec 2016 22:33:51 +0000
+
+task-teacats (1.6-1) stable
+
+  * Add apt sources and gpg files
+
+ -- Benedict Harcourt <ben@tea-cats.co.uk>  Sat, 10 Dec 2016 21:42:21 +0000
+
+task-teacats (1.5-1) stable
+
+  * Add logcheck exceptions for systemd session manager.
+  * Add logcheck exceptions for core systemd user services.
+  * Add logcheck exceptions for SMTP hosts with invalid DNS mappings.
+
+ -- Benedict Harcourt <ben@tea-cats.co.uk>  Tue, 06 Dec 2016 10:27:12 +0000
+
+task-teacats (1.4-1) stable
+
+  * Add additional SSH logcheck rules.
+
+ -- Benedict Harcourt <ben@tea-cats.co.uk>
+
+task-teacats (1.3-1) stable
+
+  * Add systemd-networkd configuration generation in place of adding files
+    to /etc/network/interfaces.d, and this method appears more reliable.
+
+ -- Benedict Harcourt <ben@tea-cats.co.uk>  Sun, 27 Nov 2016 22:28:45 +0000
+
+task-teacats (1.2-1) stable
+
+  * Add automatic configuration of a 30 second timeout for root shells
+
+ -- Benedict Harcourt <ben@tea-cats.co.uk>  Sun, 27 Nov 2016 21:30:01 +0000
+
+task-teacats (1.1-1) stable
+
+  * Adopted a version numbering scheme more consistent with Debian's packages.
+  * Add NTP query access to ::1, allowing ntpq -p to work correct.
+
+ -- Benedict Harcourt <ben@tea-cats.co.uk>  Sun, 27 Nov 2016 21:26:57 +0000
+
+task-teacats (1.0-9) stable
+
+  * Add logcheck rule for SSH exits with 'Normal Shutdown, Thanks for playing'.
+
+ -- Benedict Harcourt <ben@tea-cats.co.uk>  Tue, 24 May 2016 07:55:56 +0000
+
+task-teacats (1.0-8) stable
+
+  * Updated the description.
+  * Updated logcheck exceptions for 'Connection Reset [preauth]' with port.
+  * Change systemd APT delay message regex to cover wider set of delays.
+  * Add iptables accept rule for HTTP requests by _apt user.
+
+ -- Benedict Harcourt <ben@tea-cats.co.uk>  Sun, 01 May 2016 08:42:13 +0000
+
+task-teacats (1.0-7) stable
+
+  * Fix use of relative paths in postinst causing issues with dpkg-reconfigure.
+  * Fix issues with some SHA-256 public key hashes in ssh-extra logcheck.
+  * Change systemd APT delay message regex to cover wider set of delays.
+  * Add logcheck exclusion for "systemd[1]: Reloading." message.
+
+ -- Benedict Harcourt <ben@tea-cats.co.uk>  Thu, 28 Apr 2016 16:01:20 +0000
+
+task-teacats (1.0-6) stable; urgency=high
+
+  * Fix typo in regex in ssh-extra logcheck rules.
+
+ -- Benedict Harcourt <ben@tea-cats.co.uk>  Wed, 27 Apr 2016 08:01:12 +0000
+
+task-teacats (1.0-5) stable; urgency=medium
+
+  * Rebuild postfix maps in postinst.
+  * chown logcheck files to be readable by logcheck in postinst.
+
+ -- Benedict Harcourt <ben@tea-cats.co.uk>  Wed, 27 Apr 2016 07:37:40 +0000
+
+task-teacats (1.0-4) stable; urgency=medium
+
+  * Mark task-teacats as essential.
+
+ -- Benedict Harcourt <ben@tea-cats.co.uk>  Tue, 26 Apr 2016 21:15:34 +0000
+
+task-teacats (1.0-3) stable; urgency=medium
+
+  * Add user id to iptables logging.
+
+ -- Benedict Harcourt <ben@tea-cats.co.uk>  Tue, 26 Apr 2016 21:09:28 +0000
+
+task-teacats (1.0-2) stable; urgency=high
+
+  * Fix IPv6 ICMP reject rule to use ICMPv6.
+
+ -- Benedict Harcourt <ben@tea-cats.co.uk>  Tue, 26 Apr 2016 21:07:03 +0000
+
+task-teacats (1.0-1) stable
+
+  * Initial version of the Tea Cats task.
+
+ -- Benedict Harcourt <ben@tea-cats.co.uk>  Mon, 25 Apr 2016 20:04:05 +0000
