@@ -1,4 +1,4 @@
-task-teacats (unversioned)
+task-teacats (2.3.0-1)
 
   * Set up changelog properly
   * Tidy up general-cruft script
@@ -9,7 +9,7 @@ task-teacats (unversioned)
   * Add logcheck exception for Bleysblade.
   * Suppress warnings for DNSSEC for _ prefixed DNS names
 
- -- Benedict Harcourt <ben@tea-cats.co.uk>  Undated
+ -- Benedict Harcourt <ben@tea-cats.co.uk>  Fri, 22 Nov 2024 17:20:00 +0000
 
 task-teacats (1.15-1) stable
 
