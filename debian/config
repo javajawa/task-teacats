@@ -65,7 +65,7 @@ then
 	INTERFACES=$(get_interfaces)
 
 	DEFAULT=${INTERFACES%%, *}
-	INTERFACES=${INTERFACES#, *}
+	INTERFACES=${INTERFACES%, *}
 
 	db_beginblock
 
