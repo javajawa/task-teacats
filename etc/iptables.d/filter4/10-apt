@@ -1,1 +1,2 @@
 -A OUTPUT -p tcp --dport 80 -m owner --uid-owner _apt -j ACCEPT
+-A OUTPUT -p tcp --dport 443 -m owner --uid-owner _apt -j ACCEPT

@@ -1,3 +1,10 @@
+task-teacats (unversioned)
+
+  * Add firewall rules for downloading apt sources over HTTPS.
+  * Add firewall rules for accepting SSH connection over IPv6.
+
+ -- Not Yet Released
+
 task-teacats (2.3.1-1)
 
   * Fix trailing comma in interface list when configuring networking.
