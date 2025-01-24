@@ -2,6 +2,7 @@ task-teacats (unversioned)
 
   * Add firewall rules for downloading apt sources over HTTPS.
   * Add firewall rules for accepting SSH connection over IPv6.
+  * Expand the log check rules for Bleysblade.
 
  -- Not Yet Released
 
