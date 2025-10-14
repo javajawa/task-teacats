@@ -11,7 +11,7 @@ Pre-Depends: openssh-server, debconf
 Depends: whiptail, rsyslog, sudo, cron, lsb-release,
  dotfiles-benedict, dotfiles-root,
  cruft-ng, debsums,
- systemd, udev, policykit-1, dbus,
+ systemd, udev, polkitd, dbus,
  inet-addrs,
  curl, file, bind9-dnsutils, iputils-ping, ca-certificates
 Maintainer: Benedict Harcourt <ben@tea-cats.co.uk>

@@ -1,0 +1,5 @@
+Types: deb
+URIs: https://deb.tea-cats.co.uk/
+Suites: stable
+Components: main
+Signed-By: /etc/apt/trusted.gpg.d/tea-cats.gpg

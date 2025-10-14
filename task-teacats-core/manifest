@@ -3,7 +3,7 @@
 ./etc/rsyslog.d/fqdn.conf
 ./etc/sysctl.d/20-network-sec.conf
 ./etc/apt/apt.conf.d/40recommends
-./etc/apt/sources.list.d/tea-cats.list
+./etc/apt/sources.list.d/tea-cats.sources
 ./etc/apt/trusted.gpg.d/tea-cats.gpg
 ./usr/bin/general-cruft
 ./usr/bin/homedir-cruft

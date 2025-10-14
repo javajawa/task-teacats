@@ -228,11 +228,17 @@ config_ssh()
 
 config_ntp()
 {
-	if update_config /usr/share/etc/ntp.conf /etc/ntp.conf
+	if update_config /usr/share/etc/ntp.conf /etc/ntpsec/ntp.conf
 	then
 		echo "Installing new ntp config"
-		chmod 644 /etc/ntp.conf
+		chmod 644 /etc/ntpsec/ntp.conf
 		systemctl condrestart ntp.service || return 1
+	fi
+
+	if ! [ -d /var/log/ntpsec ]
+	then
+		mkdir /var/log/ntpsec
+		chown ntpsec:adm /var/log/ntpsec
 	fi
 
 	return 0

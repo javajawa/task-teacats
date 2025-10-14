@@ -13,6 +13,13 @@ task-teacats (3.0.0-1)
     - Adds a little backlight utility from one laptop (may not be portable).
     - Sets up bonded ethernet + wlan networking.
 
+  * Debian Trixie (13) changes:
+    - Explicitly replace `ntp` package with `ntpsec` (and move the config file).
+    - Replace `policykit-1` package with `polkitd`.
+    - Change `teacats.list` to `teacats.sources` in APT.
+    - Move disabling VirtualTerminals in Linode to `logind.conf.d`.
+	- Rename opendkim logcheck rules to opendkim-extra to avoid conflict with upstream.
+
  -- Not Yet Tagged
 
 task-teacats (2.3.2-1)

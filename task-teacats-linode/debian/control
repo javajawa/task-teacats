@@ -9,7 +9,7 @@ Conflicts: task-teacats-workstation, task-teacats (<< 2.9.0)
 Build-Depends: make
 Provides: task-teacats
 Replaces: task-teacats
-Pre-Depends: postfix, openssh-server, ntp, debconf
+Pre-Depends: postfix, openssh-server, ntpsec, debconf
 Depends: task-teacats-core,
  apt-listchanges, unattended-upgrades,
  iptablesd, logcheck,

@@ -24,7 +24,7 @@
 ./etc/logcheck/ignore.d.server/gitolite
 ./etc/logcheck/ignore.d.server/grafana
 ./etc/logcheck/ignore.d.server/ipsec-extra
-./etc/logcheck/ignore.d.server/opendkim
+./etc/logcheck/ignore.d.server/opendkim-extra
 ./etc/logcheck/ignore.d.server/postfix-extra
 ./etc/logcheck/ignore.d.server/projects
 ./etc/logcheck/ignore.d.server/rsyslog-extra
@@ -32,6 +32,8 @@
 ./etc/logcheck/ignore.d.server/systemd-extra
 ./etc/postfix/tls_policy
 ./etc/resolv.conf
+./etc/systemd/logind.conf.d
+./etc/systemd/logind.conf.d/10-disable-vt.conf
 ./usr/lib/cruft/explain/LINODE_KERNEL
 ./usr/lib/cruft/explain/postfix
 ./usr/share/etc
