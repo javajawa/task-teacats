@@ -1,0 +1,71 @@
+#!/bin/sh
+
+if [ "$1" != install ] && [ "$1" != configure ]
+then
+	exit 0
+fi
+
+# Restricts the use of `su` to the superuser
+config_su()
+{
+	STAT=$(dpkg-statoverride --list /bin/su)
+
+	if [ $? -eq 1 ]
+	then
+		echo "Restricting /bin/su to root"
+		dpkg-statoverride --update --add root root 0700 /bin/su
+	fi
+
+	if [ "$STAT" != "root root 700 /bin/su" ]
+	then
+		echo "(Re)Restricting /bin/su to root"
+		dpkg-statoverride --remove /bin/su
+		dpkg-statoverride --update --add root root 0700 /bin/su
+	fi
+}
+
+config_passwords()
+{
+	echo "Removing shells from system accounts"
+
+	exec 3</etc/passwd
+
+	while read -r USERLINE <&3
+	do
+		USER=${USERLINE%%:*}
+		USER_SHELL=${USERLINE##*:}
+
+		PASS_LINE=$(getent shadow "$USER")
+
+		PASS=${PASS_LINE#"$USER:"}
+		PASS=${PASS%%:*}
+
+		if [ "$USER" = "root" ]
+		then
+			if [ -n "$PASS" ]
+			then
+				echo 'root:*' | chpasswd -e
+			fi
+
+			continue
+		fi
+
+		if [ '*' = "$PASS" ] || [ '\!' = "$PASS" ]
+		then
+			if [ "$USER_SHELL" != "/usr/sbin/nologin" ]
+			then
+				chsh "$USER" --shell "/usr/sbin/nologin"
+			fi
+		fi
+
+		if [ '\!' = "$PASS" ]
+		then
+			echo "$USER:*" | chpasswd -e
+		fi
+	done
+
+	exec 3<&-
+}
+
+config_su
+config_passwords

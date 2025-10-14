@@ -1,3 +1,13 @@
+task-teacats (3.0.0-1)
+
+  * Split the package into twain -- core and linode.
+    - `core` covers things that work everywhere, such as apt configurations,
+      cruft tooling and so forth, and configuring su/users.
+    - `linode` covers Linode/server configs, such as iptables riles,
+      SSHD configuration, and so forth.
+
+ -- Not Yet Tagged
+
 task-teacats (2.3.2-1)
 
   * Add firewall rules for downloading apt sources over HTTPS.

@@ -1,37 +1,19 @@
 Source: task-teacats
-Package: task-teacats
+Package: task-teacats-linode
 Section: tasks
 Priority: important
 Architecture: all
 Origin: tea-cats
 Essential: yes
+Conflicts: task-teacats-workstation, task-teacats (<< 2.9.0)
 Build-Depends: make
+Provides: task-teacats
+Replaces: task-teacats
 Pre-Depends: postfix, openssh-server, ntp, debconf
-Depends: apt-listchanges,
- unattended-upgrades,
- whiptail,
- iptablesd,
- rsyslog,
- sudo,
- dotfiles-benedict,
- dotfiles-root,
- cron,
- logcheck,
- cruft-ng,
- debsums,
- udev,
- policykit-1,
- dbus,
- inet-addrs,
- prometheus-node-exporter,
- prometheus-node-exporter-collectors
-Recommends: curl,
- rsync,
- lsof,
- strace,
- kitty-terminfo,
- man-db,
- iputils-ping
+Depends: task-teacats-core,
+ apt-listchanges, unattended-upgrades,
+ iptablesd, logcheck,
+ prometheus-node-exporter, prometheus-node-exporter-collectors
 Maintainer: Benedict Harcourt <ben@tea-cats.co.uk>
 Description: Automated configuration and dependency loader for Tea Cats servers
  This package, marked essential, depends on all packages required to
@@ -45,20 +27,10 @@ Description: Automated configuration and dependency loader for Tea Cats servers
  .
  Package dependency groups:
  .
-  * Kernel/Device interfaces (udev, policykit)
-  * Infrastructure (SSH, NTP, Mail)
-  * Security (iptables, unattended-upgrades, logcheck, cruft)
+  * General system dependencies from task-teacats-core
+  * Automated Debian Upgrades
+  * Security (iptables, logcheck) and associated rules
   * Monitoring (node-exporter)
-  * Configuration (dotfiles-{benedict,root})
- .
- Required automatic configuration:
- .
-  * Add various sysctl options to improve network security
-  * Add empty /etc/shutdown.allow file (no users can shutdown)
-  * Add empty /etc/cron.allow file (no users can use cron)
-  * Configure syslog to use the fully-qualified domain name
-  * Configure /etc/resolv.conf to use internal DNS servers
-  * Basic firewall rules, e.g. DNS, SSH, SMTP, NTP, APT, logs
  .
  Optional automated configuration:
  .

@@ -1,5 +1,5 @@
-`task-tecats` Package
-=====================
+`task-teacats` Packages
+=======================
 
 Automated configuration and dependency loader for Tea Cats servers
 

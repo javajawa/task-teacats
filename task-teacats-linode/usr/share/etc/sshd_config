@@ -1,6 +1,5 @@
 # Tea-Cats SSHD Config
 # See the sshd_config(5) manpage for details
-# vim: nospell
 
 # What ports, IPs and protocols we listen for
 Port 22
@@ -23,7 +22,7 @@ PermitRootLogin no
 StrictModes yes
 
 PubkeyAuthentication yes
-AuthorizedKeysFile	%h/.ssh/authorized_keys
+AuthorizedKeysFile %h/.ssh/authorized_keys
 
 IgnoreRhosts yes
 IgnoreUserKnownHosts yes
@@ -34,10 +33,10 @@ ChallengeResponseAuthentication no
 PasswordAuthentication no
 PermitEmptyPasswords no
 
-X11Forwarding no
 PrintMotd no
 PrintLastLog no
-TCPKeepAlive no
+X11Forwarding yes
+TCPKeepAlive yes
 
 PermitTunnel no
 
@@ -51,4 +50,4 @@ PubkeyAcceptedKeyTypes ssh-ed25519,ssh-ed25519-cert-v01@openssh.com,sk-ssh-ed255
 Subsystem sftp /usr/lib/openssh/sftp-server
 
 # Allow client to pass locale environment variables
-AcceptEnv LANG LC_* DISPLAY
+AcceptEnv LANG LC_* DISPLAY COLORTERM NO_COLOR

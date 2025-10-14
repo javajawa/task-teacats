@@ -1,5 +1,4 @@
 #!/bin/sh
-# vim: nospell
 
 if [ "$1" != install ] && [ "$1" != configure ]
 then
@@ -239,114 +238,6 @@ config_ntp()
 	return 0
 }
 
-# Sets global umask of 027
-config_umask()
-{
-	if ! grep '^umask' /etc/profile >/dev/null
-	then
-		echo "Adding umask 027 to /etc/profile"
-		echo 'umask 027' >> /etc/profile
-	fi
-
-	if ! grep '^umask' /etc/zsh/zshenv >/dev/null
-	then
-		echo "Adding umask 027 to /etc/zsh/zshenv"
-		echo 'umask 027' >> /etc/zsh/zshenv
-	fi
-}
-
-# Set up 30 timeout on root sessions
-config_timeout()
-{
-	if ! grep '^	export TMOUT=30' /etc/profile
-	then
-		echo "Adding root timeout to /etc/profile"
-		echo 'test "$(id -u)" -eq 0 &&
-{
-	export TMOUT=30
-	export TIMEOUT=30
-	readonly TMOUT
-	readonly TIMEOUT
-}' >>/etc/profile
-	fi
-
-	if ! grep '^    export TMOUT=30' /etc/zsh/zshrc >/dev/null
-	then
-		echo "Adding root timeout to /etc/zsh/zshrc"
-		echo '
-test "$(id -u)" -eq 0 &&
-{
-	export TMOUT=30
-	export TIMEOUT=30
-	readonly TMOUT
-	readonly TIMEOUT
-}' >>/etc/zsh/zshrc
-	fi
-
-}
-
-# Restricts the use of `su` to the superuser
-config_su()
-{
-	STAT=$(dpkg-statoverride --list /bin/su)
-
-	if [ $? -eq 1 ]
-	then
-		echo "Restricting /bin/su to root"
-		dpkg-statoverride --update --add root root 0700 /bin/su
-	fi
-
-	if [ "$STAT" != "root root 700 /bin/su" ]
-	then
-		echo "(Re)Restricting /bin/su to root"
-		dpkg-statoverride --remove /bin/su
-		dpkg-statoverride --update --add root root 0700 /bin/su
-	fi
-}
-
-config_passwords()
-{
-	echo "Removing shells from system accounts"
-
-	exec 3</etc/passwd
-
-	while read -r USERLINE
-	do
-		USER=${USERLINE%%:*}
-		USER_SHELL=${USERLINE##*:}
-
-		PASS_LINE=$(getent shadow "$USER")
-
-		PASS=${PASS_LINE#"$USER:"}
-		PASS=${PASS%%:*}
-
-		if [ "$USER" = "root" ]
-		then
-			if [ -n "$PASS" ]
-			then
-				echo 'root:*' | chpasswd -e
-			fi
-
-			continue
-		fi
-
-		if [ '*' = "$PASS" ] || [ '\!' = "$PASS" ]
-		then
-			if [ "$USER_SHELL" != "/bin/false" ]
-			then
-				chsh "$USER" --shell "/bin/false"
-			fi
-		fi
-
-		if [ '\!' = "$PASS" ]
-		then
-			echo "$USER:*" | chpasswd -e
-		fi
-	done <&3
-
-	exec 3<&-
-}
-
 . /usr/share/debconf/confmodule
 
 # Variables for which sections are active
@@ -384,8 +275,4 @@ test ${DO_MAIL}     -eq 1 && config_postfix
 test ${DO_SSH}      -eq 1 && config_ssh
 test ${DO_NTP}      -eq 1 && config_ntp
 
-config_umask
-config_su
-config_passwords
-
-postmap /etc/postfix/tls_policy
+test -f /etc/postfix/tls_policy && postmap /etc/postfix/tls_policy

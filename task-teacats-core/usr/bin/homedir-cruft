@@ -1,5 +1,4 @@
 #!/bin/sh
-# vim: nospell
 
 set -C
 
@@ -9,7 +8,7 @@ ME=$(id -nu)
 exec 3</etc/passwd
 
 IFS=:
-while read -r USER TMP ID GID DATA HOME SHELL
+while read -r USER TMP ID GID DATA HOME SHELL <&3
 do
 	test "$SHELL" = "/bin/false" && continue
 	test "$SHELL" = "/usr/sbin/nologin" && continue
@@ -20,11 +19,11 @@ do
 	exec 4<"${TMPDIR}/${USER}.raw"
 	exec 5>"${TMPDIR}/${USER}.filter"
 
-	while read FILE
+	while read -r FILE <&4
 	do
 		dpkg --search "$FILE" >/dev/null 2>/dev/null && continue
 
-		DIR=${FILE#$HOME/}
+		DIR=${FILE#"$HOME"/}
 
 		test "$DIR" = ".viminfo"      && continue
 		test "$DIR" = ".zsh-history"  && continue
@@ -37,7 +36,7 @@ do
 		test "$DIR" = ".zshcache"  && continue
 
 		printf "%s\n" "$FILE" >&5
-	done <&4
+	done
 
 	exec 4<&-
 	exec 5>&-
@@ -47,9 +46,8 @@ do
 	printf " === %s ===\n" "$USER"
 	cat "${TMPDIR}/${USER}.filter"
 	printf "\n"
-done <&3
+done
 
 exec 3<&-
 
 rm -Rf "$TMPDIR"
-

@@ -14,6 +14,6 @@ clean:
 manifest:
 	@true
 
-usr/share/doc/task-teacats/changelog.Debian.gz: CHANGELOG
+usr/share/doc/task-teacats/changelog.Debian.gz: ../CHANGELOG
 	@mkdir -vp "$(dir $@)"
 	gzip --keep "$^" --stdout >"$@"
