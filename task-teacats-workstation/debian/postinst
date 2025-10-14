@@ -1,0 +1,91 @@
+#!/bin/sh
+
+if [ "$1" != install ] && [ "$1" != configure ]
+then
+	exit 0
+fi
+
+config_hostname()
+{
+	# Get the current hostname
+	HOSTNAME=$(cat /etc/hostname)
+
+	# Get the new hostname
+	db_get task-teacats/hostname
+
+	# Skip if the hostname is unchanged
+	test "${HOSTNAME}" = "${RET}" && return 0
+
+	# Set the hostname
+	HOSTNAME=${RET}
+	export HOSTNAME
+
+	# Set the hostname file
+	echo "${HOSTNAME}" >/etc/hostname
+
+	# Set the hostname itself
+	hostname -F /etc/hostname
+
+	SOURCE=$(mktemp)
+
+	# Remove leading host lines from /etc/hosts
+	sed -e '/^127.0.[01].1/d' -e '/^127.0.[01].1/{//,$p}' /etc/hosts >"$SOURCE"
+
+	# Write the new hosts file
+	{
+		echo "127.0.0.1  $HOSTNAME";
+		echo "127.0.1.1  ${HOSTNAME%%.*} localhost";
+		cat "$SOURCE"
+	} >/etc/hosts
+
+	rm -f "$SOURCE"
+
+	# See if we succeeded
+	test "${HOSTNAME}" = "$(hostname)"
+	return $?
+}
+
+config_ssh()
+{
+	if [ ! -s /etc/ssh/ssh_host_ed25519_key ]
+	then
+		echo "Generating ssh ed25519 key"
+		ssh-keygen -t ed25519 -b 512  -f /etc/ssh/ssh_host_ed25519_key -N '' -C "$HOSTNAME"
+	fi
+
+	if [ -s /etc/ssh/ssh_host_rsa_key ]
+	then
+		echo >/etc/ssh/ssh_host_ecdsa_key
+		echo >/etc/ssh/ssh_host_ecdsa_key.pub
+	fi
+
+	if [ -s /etc/ssh/ssh_host_ecdsa_key ]
+	then
+		echo >/etc/ssh/ssh_host_ecdsa_key
+		echo >/etc/ssh/ssh_host_ecdsa_key.pub
+	fi
+
+	if [ -s /etc/ssh/ssh_host_dsa_key ]
+	then
+		echo >/etc/ssh/ssh_host_dsa_key
+		echo >/etc/ssh/ssh_host_dsa_key.pub
+	fi
+
+	if test ! -e /etc/ssh/sshd_config || ! diff -q >/dev/null /usr/share/etc/sshd_config /etc/ssh/sshd_config
+	then
+		echo "Installing new ssh config"
+		mv "/etc/ssh/sshd_config" "/etc/ssh/sshd_config.$(date +%s).bak"
+		cp /usr/share/etc/sshd_config /etc/ssh/sshd_config
+		systemctl condrestart ssh.service || return 1
+	fi
+
+	return 0
+}
+
+. /usr/share/debconf/confmodule
+
+config_hostname
+config_ssh
+
+systemctl is-enabled systemd-resolved.service >/dev/null || systemctl enable systemd-resolved.service
+systemctl is-enabled systemd-timesyncd.service >/dev/null || systemctl enable systemd-timesyncd.service

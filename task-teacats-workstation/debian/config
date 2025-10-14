@@ -1,0 +1,12 @@
+#!/bin/sh -e
+
+# Source debconf library.
+. /usr/share/debconf/confmodule
+
+HOSTNAME=$(hostname -f || true)
+
+db_beginblock
+db_subst task-teacats/hostname default "${HOSTNAME:-new.tea-cats.co.uk}"
+db_input high task-teacats/hostname || true
+db_endblock
+db_go

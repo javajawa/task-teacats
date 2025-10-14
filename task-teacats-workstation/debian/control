@@ -1,0 +1,26 @@
+Source: task-teacats
+Package: task-teacats-workstation
+Section: tasks
+Priority: important
+Architecture: all
+Origin: tea-cats
+Essential: yes
+Conflicts: task-teacats-linode
+Provides: task-teacats
+Build-Depends: make
+Pre-Depends: openssh-server, debconf
+Depends: task-teacats-core,
+ systemd-resolved, wpasupplicant, dmidecode,
+ systemd-timesyncd, powertop,
+ man-db, git, python3-venv, kitty,
+ libbrotli1, libbz2-1.0, libc6, libexpat1, libfontconfig1, libfreetype6, libpng16-16t64, libx11-6,
+ libxau6, libxcb1, libxdmcp6, libxext6, libxft2, libxinerama1, libxrender1, libzstd1,
+ xserver-xorg, xserver-xorg-input-evdev, xserver-xorg-input-kbd, xserver-xorg-input-mouse,
+ x11-xserver-utils, x11-utils, xinit, xinput, suckless-tools, fonts-noto, fonts-noto-color-emoji,
+ pulseaudio, pavucontrol, scrot
+Maintainer: Benedict Harcourt <ben@tea-cats.co.uk>
+Description: Automated configuration and dependency loader for Tea Cats workstations
+ This package, marked essential, depends on all packages required to
+ build a functional and integrated Tea Cats machine, and perform a number
+ of automatic configuration of various parts of the server to improve
+ security.

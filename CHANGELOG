@@ -6,6 +6,13 @@ task-teacats (3.0.0-1)
     - `linode` covers Linode/server configs, such as iptables riles,
       SSHD configuration, and so forth.
 
+  * Add a `workstation` package.
+    - Installs a basic X11 stack.
+    - Adds a fork of `dwm` as a window manager.
+    - Adds a complete rewrite of `dwmstatus` for info.
+    - Adds a little backlight utility from one laptop (may not be portable).
+    - Sets up bonded ethernet + wlan networking.
+
  -- Not Yet Tagged
 
 task-teacats (2.3.2-1)

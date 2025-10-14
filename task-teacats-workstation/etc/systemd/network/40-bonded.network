@@ -1,0 +1,11 @@
+[Match]
+Name=bonded
+
+[Link]
+ActivationPolicy=bound
+RequiredForOnline=routable
+
+[Network]
+BindCarrier=enp0s31f6 wlp0s20f3
+DHCP=yes
+Domains=tea-cats.co.uk

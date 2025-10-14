@@ -1,0 +1,5 @@
+Template: task-teacats/hostname
+Type: string
+Default: ${default}
+Description: Machine Hostname
+ Fully-Qualified Hostname of the machine

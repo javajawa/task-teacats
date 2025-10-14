@@ -1,0 +1,6 @@
+*.o
+/dwm/dwm
+/dwmstatus/dwmstatus
+/backlight/backlight
+
+changelog.Debian.gz

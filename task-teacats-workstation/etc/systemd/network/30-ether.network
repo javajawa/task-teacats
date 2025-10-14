@@ -1,0 +1,10 @@
+[Match]
+Type=ether
+
+[Link]
+ActivationPolicy=always-up
+RequiredForOnline=no
+
+[Network]
+Bond=bonded
+PrimarySlave=true
