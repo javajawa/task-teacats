@@ -7,4 +7,5 @@
 ./etc/apt/trusted.gpg.d/tea-cats.gpg
 ./usr/bin/general-cruft
 ./usr/bin/homedir-cruft
+./usr/share/doc/task-teacats
 ./usr/share/doc/task-teacats/changelog.Debian.gz
