@@ -13,7 +13,8 @@ Pre-Depends: postfix, openssh-server, ntpsec, debconf
 Depends: task-teacats-core,
  apt-listchanges, unattended-upgrades,
  iptablesd, logcheck,
- prometheus-node-exporter, prometheus-node-exporter-collectors
+ prometheus-node-exporter, prometheus-node-exporter-collectors,
+ rsync
 Maintainer: Benedict Harcourt <ben@tea-cats.co.uk>
 Description: Automated configuration and dependency loader for Tea Cats servers
  This package, marked essential, depends on all packages required to

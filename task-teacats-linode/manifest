@@ -34,8 +34,8 @@
 ./etc/resolv.conf
 ./etc/systemd/logind.conf.d
 ./etc/systemd/logind.conf.d/10-disable-vt.conf
-./usr/lib/cruft/explain/LINODE_KERNEL
-./usr/lib/cruft/explain/postfix
+./etc/cruft/explain/LINODE_KERNEL
+./etc/cruft/explain/postfix
 ./usr/share/etc
 ./usr/share/etc/main.cf
 ./usr/share/etc/ntp.conf

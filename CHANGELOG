@@ -19,6 +19,7 @@ task-teacats (3.0.0-1)
     - Change `teacats.list` to `teacats.sources` in APT.
     - Move disabling VirtualTerminals in Linode to `logind.conf.d`.
 	- Rename opendkim logcheck rules to opendkim-extra to avoid conflict with upstream.
+	- Move cruft rules from `/usr/lib/cruft` to `/etc/cruft`.
 
   * Add logcheck test set for Bleysblade.
 
