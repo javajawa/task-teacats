@@ -20,6 +20,7 @@ task-teacats (3.0.0-1)
     - Move disabling VirtualTerminals in Linode to `logind.conf.d`.
 	- Rename opendkim logcheck rules to opendkim-extra to avoid conflict with upstream.
 	- Move cruft rules from `/usr/lib/cruft` to `/etc/cruft`.
+	- Change source name from `sshd` to `sshd-session` for most SSH logcheck rules.
 
   * Add logcheck test set for Bleysblade.
 
