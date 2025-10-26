@@ -2,7 +2,7 @@ etc/systemd/network/10-bonded.netdev
 etc/systemd/network/30-ether.network
 etc/systemd/network/30-wlan.network
 etc/systemd/network/40-bonded.network
-use/bin/backlight
+usr/bin/backlight
 usr/bin/dwm
 usr/bin/dwmstatus
 usr/share/etc
