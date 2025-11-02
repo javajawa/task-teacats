@@ -6937,3 +6937,38 @@ Dec 07 10:43:32 lyrebird.tea-cats.co.uk Bleysblade.Server[600829]:       The fil
 Dec 07 10:46:26 lyrebird.tea-cats.co.uk Bleysblade.Server[600829]:       The file _framework/dotnet.runtime.o8gq1i8bk6.js was not modified
 Dec 07 13:48:28 lyrebird.tea-cats.co.uk Bleysblade.Server[600829]:       The file _framework/dotnet.runtime.o8gq1i8bk6.js was not modified
 Dec 06 11:57:51 lyrebird.tea-cats.co.uk Bleysblade.Server[600829]:       The file _framework/icudt_EFIGS.tptq2av103.dat was not modified
+2025-11-01T00:00:00.000000+00:00 lyrebird.tea-cats.co.uk Bleysblade.Server[12345]:       Request finished HTTP/1.1 GET http://localhost:5000/?XDEBUG_SESSION_START=phpstorm - 200 - text/html;+charset=utf-8 3.8794ms
+2025-11-01T00:00:00.000000+00:00 lyrebird.tea-cats.co.uk Bleysblade.Server[12345]:       Request finished HTTP/1.1 GET http://localhost:5000/?phpinfo=-1 - 200 - text/html;+charset=utf-8 2.9209ms
+2025-11-01T00:00:00.000000+00:00 lyrebird.tea-cats.co.uk Bleysblade.Server[12345]:       Request finished HTTP/1.1 GET http://localhost:5000/?rest_route=/wp/v2/users/ - 200 - text/html;+charset=utf-8 1.8957ms
+2025-11-01T00:00:00.000000+00:00 lyrebird.tea-cats.co.uk Bleysblade.Server[12345]:       Request finished HTTP/1.1 GET http://localhost:5000/server - 400 - text/plain 10.8633ms
+2025-11-01T00:00:00.000000+00:00 lyrebird.tea-cats.co.uk Bleysblade.Server[12345]:       Request finished HTTP/1.1 OPTIONS http://localhost:5000/ - 405 0 - 0.1010ms
+2025-11-01T00:00:00.000000+00:00 lyrebird.tea-cats.co.uk Bleysblade.Server[12345]:       Request finished HTTP/1.1 POST http://localhost:5000/api - 405 0 - 0.1247ms
+2025-11-01T00:00:00.000000+00:00 lyrebird.tea-cats.co.uk Bleysblade.Server[12345]:       Request finished HTTP/1.1 POST http://localhost:5000/api/gql - 405 0 - 0.1264ms
+2025-11-01T00:00:00.000000+00:00 lyrebird.tea-cats.co.uk Bleysblade.Server[12345]:       Request finished HTTP/1.1 POST http://localhost:5000/api/graphql - 405 0 - 0.3970ms
+2025-11-01T00:00:00.000000+00:00 lyrebird.tea-cats.co.uk Bleysblade.Server[12345]:       Request finished HTTP/1.1 POST http://localhost:5000/graphql - 405 0 - 0.4602ms
+2025-11-01T00:00:00.000000+00:00 lyrebird.tea-cats.co.uk Bleysblade.Server[12345]:       Request finished HTTP/1.1 POST http://localhost:5000/graphql/api - 405 0 - 0.0995ms
+2025-11-01T00:00:00.000000+00:00 lyrebird.tea-cats.co.uk Bleysblade.Server[12345]:       Request finished HTTP/1.1 POST http://localhost:5000/v1/statement - 405 0 - 0.9082ms
+2025-11-01T00:00:00.000000+00:00 lyrebird.tea-cats.co.uk Bleysblade.Server[12345]:       Request finished HTTP/1.1 POST http://localhost:5000/wp-json/sure-triggers/v1/automation/action - 405 0 - 0.2460ms
+2025-11-01T00:00:00.000000+00:00 lyrebird.tea-cats.co.uk Bleysblade.Server[12345]:       Request finished HTTP/1.1 POST http://localhost:5000/wsman - 405 0 - 0.1165ms
+2025-11-01T00:00:00.000000+00:00 lyrebird.tea-cats.co.uk Bleysblade.Server[12345]:       Request finished HTTP/1.1 POST http://localhost:5000/xmlrpc.php - 405 0 - 0.8440ms
+2025-11-01T00:00:00.000000+00:00 lyrebird.tea-cats.co.uk Bleysblade.Server[12345]:       Request finished HTTP/1.1 PROPFIND http://localhost:5000/ - 405 0 - 0.6206ms
+2025-11-01T00:00:00.000000+00:00 lyrebird.tea-cats.co.uk Bleysblade.Server[12345]:       Request starting HTTP/1.1 GET http://localhost:5000/_all_dbs - application/json -
+2025-11-01T00:00:00.000000+00:00 lyrebird.tea-cats.co.uk Bleysblade.Server[12345]:       Request starting HTTP/1.1 OPTIONS http://localhost:5000/ - application/x-www-form-urlencoded 48
+2025-11-01T00:00:00.000000+00:00 lyrebird.tea-cats.co.uk Bleysblade.Server[12345]:       Request starting HTTP/1.1 OPTIONS http://localhost:5000/ - application/x-www-form-urlencoded 54
+2025-11-01T00:00:00.000000+00:00 lyrebird.tea-cats.co.uk Bleysblade.Server[12345]:       Request starting HTTP/1.1 POST http://localhost:5000/ - - 67
+2025-11-01T00:00:00.000000+00:00 lyrebird.tea-cats.co.uk Bleysblade.Server[12345]:       Request starting HTTP/1.1 POST http://localhost:5000/ - application/x-www-form-urlencoded -
+2025-11-01T00:00:00.000000+00:00 lyrebird.tea-cats.co.uk Bleysblade.Server[12345]:       Request starting HTTP/1.1 POST http://localhost:5000/ - application/x-www-form-urlencoded -
+2025-11-01T00:00:00.000000+00:00 lyrebird.tea-cats.co.uk Bleysblade.Server[12345]:       Request starting HTTP/1.1 POST http://localhost:5000/ - application/x-www-form-urlencoded -
+2025-11-01T00:00:00.000000+00:00 lyrebird.tea-cats.co.uk Bleysblade.Server[12345]:       Request starting HTTP/1.1 POST http://localhost:5000/api - application/json 75
+2025-11-01T00:00:00.000000+00:00 lyrebird.tea-cats.co.uk Bleysblade.Server[12345]:       Request starting HTTP/1.1 POST http://localhost:5000/api/gql - application/json 75
+2025-11-01T00:00:00.000000+00:00 lyrebird.tea-cats.co.uk Bleysblade.Server[12345]:       Request starting HTTP/1.1 POST http://localhost:5000/api/graphql - application/json 75
+2025-11-01T00:00:00.000000+00:00 lyrebird.tea-cats.co.uk Bleysblade.Server[12345]:       Request starting HTTP/1.1 POST http://localhost:5000/graphql - application/json 75
+2025-11-01T00:00:00.000000+00:00 lyrebird.tea-cats.co.uk Bleysblade.Server[12345]:       Request starting HTTP/1.1 POST http://localhost:5000/graphql/api - application/json 75
+2025-11-01T00:00:00.000000+00:00 lyrebird.tea-cats.co.uk Bleysblade.Server[12345]:       Request starting HTTP/1.1 POST http://localhost:5000/v1/statement - - 13
+2025-11-01T00:00:00.000000+00:00 lyrebird.tea-cats.co.uk Bleysblade.Server[12345]:       Request starting HTTP/1.1 POST http://localhost:5000/wp-json/sure-triggers/v1/automation/action - application/json 248
+2025-11-01T00:00:00.000000+00:00 lyrebird.tea-cats.co.uk Bleysblade.Server[12345]:       Request starting HTTP/1.1 POST http://localhost:5000/wsman - - 0
+2025-11-01T00:00:00.000000+00:00 lyrebird.tea-cats.co.uk Bleysblade.Server[12345]:       Request starting HTTP/1.1 POST http://localhost:5000/xmlrpc.php - text/xml;+charset=utf-8 680
+2025-11-01T00:00:00.000000+00:00 lyrebird.tea-cats.co.uk Bleysblade.Server[12345]:       Request starting HTTP/1.1 POST http://localhost:5000/xmlrpc.php - text/xml;+charset=utf-8 680
+2025-11-01T00:00:00.000000+00:00 lyrebird.tea-cats.co.uk Bleysblade.Server[12345]:       Request starting HTTP/1.1 POST http://localhost:5000/xmlrpc.php - text/xml;+charset=utf-8 682
+2025-11-01T00:00:00.000000+00:00 lyrebird.tea-cats.co.uk Bleysblade.Server[12345]:       Request starting HTTP/1.1 PROPFIND http://localhost:5000/ - - -
+2025-11-01T00:00:00.000000+00:00 lyrebird.tea-cats.co.uk Bleysblade.Server[12345]:       Sending file. Request path: 'appsettings.json'. Physical path: '/srv/bleysblade/bleysblade/Bleysblade.Client/wwwroot/appsettings.json'

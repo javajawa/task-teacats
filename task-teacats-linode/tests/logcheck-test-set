@@ -2687,3 +2687,58 @@ Nov 22 07:55:26 ibis.tea-cats.co.uk named[419]: 22-Nov-2024 07:55:26.709 dnssec:
 Nov 22 07:57:09 ibis.tea-cats.co.uk named[419]: 22-Nov-2024 07:57:09.786 dnssec: info: view internal:   validating _matrix-fed._tcp.wieg.online/NSEC: no valid signature found
 2024-11-22T07:55:26.648706+00:00 ibis.tea-cats.co.uk named[419]: 22-Nov-2024 07:55:26.645 dnssec: info: view internal:   validating _matrix-fed._tcp.wieg.online/NSEC: no valid signature found
 2024-11-22T07:55:26.711721+00:00 ibis.tea-cats.co.uk named[419]: 22-Nov-2024 07:55:26.709 dnssec: info: view internal: validating _matrix._tcp.wieg.online/SRV: no valid signature found
+2025-11-01T00:00:00.000000+00:00 clive.tea-cats.co.uk prometheus[12345]: ts=2025-09-21T23:00:05.077Z caller=compact.go:519 level=info component=tsdb msg="write block" mint=1758484800166 maxt=1758492000000 ulid=01K5Q82Z81ESW3EFJHXV4Z67SD duration=1.107952921s
+2025-11-01T00:00:00.000000+00:00 griffin.tea-cats.co.uk polkitd[12345]: Registered Authentication Agent for unix-process:3364901:1987429152 (system bus name :1.2651139 [/usr/bin/pkttyagent --notify-fd 5 --fallback], object path /org/freedesktop/PolicyKit1/AuthenticationAgent, locale en_GB.UTF-8)
+2025-11-01T00:00:00.000000+00:00 griffin.tea-cats.co.uk polkitd[12345]: Registered Authentication Agent for unix-process:3364975:1987503954 (system bus name :1.2651244 [/usr/bin/pkttyagent --notify-fd 5 --fallback], object path /org/freedesktop/PolicyKit1/AuthenticationAgent, locale en_GB.UTF-8)
+2025-11-01T00:00:00.000000+00:00 griffin.tea-cats.co.uk polkitd[12345]: Unregistered Authentication Agent for unix-process:3364901:1987429152 (system bus name :1.2651139, object path /org/freedesktop/PolicyKit1/AuthenticationAgent, locale en_GB.UTF-8) (disconnected from bus)
+2025-11-01T00:00:00.000000+00:00 griffin.tea-cats.co.uk polkitd[12345]: Unregistered Authentication Agent for unix-process:3364975:1987503954 (system bus name :1.2651244, object path /org/freedesktop/PolicyKit1/AuthenticationAgent, locale en_GB.UTF-8) (disconnected from bus)
+2025-11-01T00:00:00.000000+00:00 hawk.tea-cats.co.uk sshd-session[12345]: User www-data from 164.92.155.33 not allowed because none of user's groups are listed in AllowGroups
+2025-11-01T00:00:00.000000+00:00 hawk.tea-cats.co.uk sshd-session[12345]: User www-data from 164.92.155.33 not allowed because none of user's groups are listed in AllowGroups
+2025-11-01T00:00:00.000000+00:00 hawk.tea-cats.co.uk sshd-session[12345]: User www-data from 59.12.160.91 not allowed because none of user's groups are listed in AllowGroups
+2025-11-01T00:00:00.000000+00:00 hawk.tea-cats.co.uk sshd-session[12345]: error: send_error: write: Broken pipe
+2025-11-01T00:00:00.000000+00:00 hawk.tea-cats.co.uk sshd-session[12345]: error: send_error: write: Connection reset by peer
+2025-11-01T00:00:00.000000+00:00 hawk.tea-cats.co.uk sshd[12345]: PerSourcePenalties logging rate-limited: additional 17 connections dropped
+2025-11-01T00:00:00.000000+00:00 hawk.tea-cats.co.uk sshd[12345]: PerSourcePenalties logging rate-limited: additional 329 connections dropped
+2025-11-01T00:00:00.000000+00:00 hawk.tea-cats.co.uk sshd[12345]: PerSourcePenalties logging rate-limited: additional 48 connections dropped
+2025-11-01T00:00:00.000000+00:00 hawk.tea-cats.co.uk sshd[12345]: Timeout before authentication for connection from 101.91.114.194 to 178.79.147.203, pid = 294738
+2025-11-01T00:00:00.000000+00:00 hawk.tea-cats.co.uk sshd[12345]: Timeout before authentication for connection from 104.248.83.123 to 178.79.147.203, pid = 52895
+2025-11-01T00:00:00.000000+00:00 hawk.tea-cats.co.uk sshd[12345]: drop connection #0 from [156.238.254.2]:38642 on [178.79.147.203]:22 penalty: connections without attempting authentication
+2025-11-01T00:00:00.000000+00:00 hawk.tea-cats.co.uk sshd[12345]: drop connection #0 from [156.238.254.2]:38644 on [178.79.147.203]:22 penalty: connections without attempting authentication
+2025-11-01T00:00:00.000000+00:00 ibis.tea-cats.co.uk named[12345]: 01-Nov-2025 06:18:05.925 general: info: internal: sending trust-anchor-telemetry query '_ta-4f66-9728/NULL'
+2025-11-01T00:00:00.000000+00:00 ibis.tea-cats.co.uk named[12345]: 01-Nov-2025 06:18:05.925 general: info: public: sending trust-anchor-telemetry query '_ta-4f66-9728/NULL'
+2025-11-01T00:00:00.000000+00:00 ibis.tea-cats.co.uk named[12345]: 01-Nov-2025 19:21:52.097 dnssec: info: view internal: validating a1044111.bnc3.mailjet.com/CNAME: no valid signature found
+2025-11-01T00:00:00.000000+00:00 ibis.tea-cats.co.uk named[12345]: 01-Nov-2025 19:21:52.097 dnssec: info: view internal: validating bnc3.mailjet.com/MX: no valid signature found
+2025-11-01T00:00:00.000000+00:00 ibis.tea-cats.co.uk named[12345]: 02-Nov-2025 06:18:05.927 general: info: internal: sending trust-anchor-telemetry query '_ta-4f66-9728/NULL'
+2025-11-01T00:00:00.000000+00:00 ibis.tea-cats.co.uk named[12345]: 02-Nov-2025 06:18:05.927 general: info: public: sending trust-anchor-telemetry query '_ta-4f66-9728/NULL'
+2025-11-01T00:00:00.000000+00:00 ibis.tea-cats.co.uk named[12345]: 27-Oct-2025 06:18:05.920 general: info: internal: sending trust-anchor-telemetry query '_ta-4f66-9728/NULL'
+2025-11-01T00:00:00.000000+00:00 ibis.tea-cats.co.uk named[12345]: 27-Oct-2025 06:18:05.920 general: info: public: sending trust-anchor-telemetry query '_ta-4f66-9728/NULL'
+2025-11-01T00:00:00.000000+00:00 kestrel.tea-cats.co.uk postfix/smtpd[12345]: NOQUEUE: lost connection after CONNECT from 100.149.216.162.bc.googleusercontent.com[162.216.149.100]
+2025-11-01T00:00:00.000000+00:00 kestrel.tea-cats.co.uk postfix/smtpd[12345]: NOQUEUE: lost connection after CONNECT from 108.211.203.35.bc.googleusercontent.com[35.203.211.108]
+2025-11-01T00:00:00.000000+00:00 kestrel.tea-cats.co.uk postfix/smtpd[12345]: NOQUEUE: lost connection after CONNECT from unknown[78.153.140.207]
+2025-11-01T00:00:00.000000+00:00 kestrel.tea-cats.co.uk postfix/smtpd[12345]: NOQUEUE: lost connection after EHLO from 100.149.216.162.bc.googleusercontent.com[162.216.149.100]
+2025-11-01T00:00:00.000000+00:00 kestrel.tea-cats.co.uk postfix/smtpd[12345]: NOQUEUE: lost connection after EHLO from unknown[164.92.215.178]
+2025-11-01T00:00:00.000000+00:00 kestrel.tea-cats.co.uk postfix/smtpd[12345]: NOQUEUE: lost connection after HELP from 100.149.216.162.bc.googleusercontent.com[162.216.149.100]
+2025-11-01T00:00:00.000000+00:00 kestrel.tea-cats.co.uk postfix/smtpd[12345]: NOQUEUE: lost connection after HELP from 108.211.203.35.bc.googleusercontent.com[35.203.211.108]
+2025-11-01T00:00:00.000000+00:00 kestrel.tea-cats.co.uk postfix/smtpd[12345]: NOQUEUE: lost connection after RCPT from unknown[109.61.64.9]
+2025-11-01T00:00:00.000000+00:00 kestrel.tea-cats.co.uk postfix/smtpd[12345]: NOQUEUE: lost connection after STARTTLS from 133.9.202.35.bc.googleusercontent.com[35.202.9.133]
+2025-11-01T00:00:00.000000+00:00 kestrel.tea-cats.co.uk postfix/smtpd[12345]: NOQUEUE: lost connection after STARTTLS from scan-15o.shadowserver.org[2001:470:1:c84::25]
+2025-11-01T00:00:00.000000+00:00 kestrel.tea-cats.co.uk postfix/smtpd[12345]: NOQUEUE: lost connection after UNKNOWN from unknown[118.194.233.185]
+2025-11-01T00:00:00.000000+00:00 kestrel.tea-cats.co.uk postfix/smtpd[12345]: NOQUEUE: lost connection after UNKNOWN from unknown[118.194.234.29]
+2025-11-01T00:00:00.000000+00:00 kestrel.tea-cats.co.uk sshd-session[12345]: Received disconnect from 109.155.78.155 port 36506:11: disconnected by user
+2025-11-01T00:00:00.000000+00:00 kestrel.tea-cats.co.uk sshd-session[12345]: User www-data from 128.199.54.57 not allowed because none of user's groups are listed in AllowGroups
+2025-11-01T00:00:00.000000+00:00 kestrel.tea-cats.co.uk sshd-session[12345]: User www-data from 128.199.54.57 not allowed because none of user's groups are listed in AllowGroups
+2025-11-01T00:00:00.000000+00:00 kestrel.tea-cats.co.uk sshd-session[12345]: error: send_error: write: Connection reset by peer
+2025-11-01T00:00:00.000000+00:00 kestrel.tea-cats.co.uk sshd-session[12345]: error: send_error: write: Connection reset by peer
+2025-11-01T00:00:00.000000+00:00 kestrel.tea-cats.co.uk sshd[12345]: PerSourcePenalties logging rate-limited: additional 146 connections dropped
+2025-11-01T00:00:00.000000+00:00 kestrel.tea-cats.co.uk sshd[12345]: PerSourcePenalties logging rate-limited: additional 39 connections dropped
+2025-11-01T00:00:00.000000+00:00 kestrel.tea-cats.co.uk sshd[12345]: Timeout before authentication for connection from 101.126.67.255 to 109.237.27.144, pid = 1881924
+2025-11-01T00:00:00.000000+00:00 kestrel.tea-cats.co.uk sshd[12345]: Timeout before authentication for connection from 101.126.67.255 to 109.237.27.144, pid = 1881951
+2025-11-01T00:00:00.000000+00:00 kestrel.tea-cats.co.uk sshd[12345]: drop connection #0 from [115.245.116.230]:11269 on [109.237.27.144]:22 penalty: connections without attempting authentication
+2025-11-01T00:00:00.000000+00:00 kestrel.tea-cats.co.uk sshd[12345]: drop connection #0 from [115.245.116.230]:36174 on [109.237.27.144]:22 penalty: connections without attempting authentication
+2025-11-01T00:00:00.000000+00:00 kestrel.tea-cats.co.uk systemd-tmpfiles[12345]: /usr/lib/tmpfiles.d/legacy.conf:14: Duplicate line for path "/run/lock", ignoring.
+2025-11-01T00:00:00.000000+00:00 kestrel.tea-cats.co.uk sshd-session[12345]: pam_unix(sshd:session): session closed for user benedict
+2025-11-01T00:00:00.000000+00:00 kestrel.tea-cats.co.uk sshd-session[12345]: pam_unix(sshd:session): session closed for user benedict
+2025-11-01T00:00:00.000000+00:00 kestrel.tea-cats.co.uk sshd-session[12345]: pam_unix(sshd:session): session opened for user benedict(uid=1000) by benedict(uid=0)
+2025-11-01T00:00:00.000000+00:00 kestrel.tea-cats.co.uk sshd-session[12345]: pam_unix(sshd:session): session opened for user benedict(uid=1000) by benedict(uid=0)
+2025-11-01T00:00:00.000000+00:00 kestrel.tea-cats.co.uk sshd-session[12345]: syslogin_perform_logout: logout() returned an error
+2025-11-01T00:00:00.000000+00:00 kestrel.tea-cats.co.uk sshd-session[12345]: syslogin_perform_logout: logout() returned an error
