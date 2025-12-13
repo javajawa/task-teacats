@@ -1,3 +1,12 @@
+task-teacats (3.0.0-2)
+
+  * More logcheck improvements
+    - Less noise from SPAM email.
+    - Do not report access denied for default host in Apache.
+    - General post-Debian 13 clean up.
+
+ -- Benedict Harcourt <ben@tea-cats.co.uk>  Sat, 13 Dec 2025 13:55:00 +0000
+
 task-teacats (3.0.0-1)
 
   * Split the package into twain -- core and linode.
