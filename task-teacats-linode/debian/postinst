@@ -51,20 +51,22 @@ config_network()
 	TMP=$(mktemp)
 	exec 9>"$TMP"
 
-	# Get the name of the interface we want
-	db_get task-teacats/interface
-	INTERFACE=$RET
-
 	# Write the header
-	echo "# Auto-configured Network interface" >&9
-	echo "# vim: nospell" >&9
-	echo "[Match]" >&9
-	echo "Name=$INTERFACE" >&9
-	echo >&9
-	echo "[Network]" >&9
-	echo "Description=$INTERFACE Interface" >&9
-	echo "Domains=tea-cats.co.uk" >&9
-	echo "DHCP=ipv6" >&9
+	printf >&9 "# Auto-configured Network interface\n"
+	printf >&9 "# vim: nospell\n"
+	printf >&9 "[Match]\n"
+	printf >&9 "Type=ether\n"
+	printf >&9 "Name=en*\n"
+
+	printf >&9 "\n"
+	printf >&9 "[Network]\n"
+	printf >&9 "Description=Linode ethernet Interface\n"
+	printf >&9 "Domains=tea-cats.co.uk\n"
+	printf >&9 "DHCP=ipv6\n"
+
+	printf >&9 "\n"
+	printf >&9 "[Link]\n"
+	printf >&9 "MTUBytes=1500\n"
 
 	# Write the IPv6 section, if set
 	db_get task-teacats/address-ipv6
@@ -74,19 +76,19 @@ config_network()
 		ADDR=$RET
 		db_get task-teacats/netmask-ipv6
 
-		echo >&9
-		echo "[Address]" >&9
-		echo "Address=$ADDR/${RET:-128}" >&9
+		printf >&9 "\n"
+		printf >&9 "[Address]\n"
+		printf >&9 "Address=%s/%s\n" "$ADDR" "${RET:-128}"
 	fi
 
 	db_get task-teacats/gateway-ipv6
 	if [ -n "$RET" ]
 	then
-		echo >&9
-		echo "[Route]" >&9
-		echo "Gateway=$RET" >&9
-		echo "Scope=global" >&9
-		echo "Destination=::0/0" >&9
+		printf >&9 "\n"
+		printf >&9 "[Route]\n"
+		printf >&9 "Gateway=%s\n" "$RET"
+		printf >&9 "Scope=global\n"
+		printf >&9 "Destination=::0/0\n"
 	fi
 
 	# Write the IPv4 section, if set
@@ -97,19 +99,19 @@ config_network()
 		ADDR=$RET
 		db_get task-teacats/netmask-ipv4
 
-		echo >&9
-		echo "[Address]" >&9
-		echo "Address=$ADDR/${RET:-32}" >&9
+		printf >&9 "\n"
+		printf >&9 "[Address]\n"
+		printf >&9 "Address=%s/%s\n" "$ADDR" "${RET:-32}"
 	fi
 
 	db_get task-teacats/gateway-ipv4
 	if [ -n "$RET" ]
 	then
-		echo >&9
-		echo "[Route]" >&9
-		echo "Gateway=$RET" >&9
-		echo "Scope=global" >&9
-		echo "Destination=0.0.0.0/0" >&9
+		printf >&9 "\n"
+		printf >&9 "[Route]\n"
+		printf >&9 "Gateway=%s\n" "$RET"
+		printf >&9 "Scope=global\n"
+		printf >&9 "Destination=0.0.0.0/0\n"
 	fi
 
 	db_get task-teacats/address-local
@@ -118,21 +120,28 @@ config_network()
 		ADDR=$RET
 		db_get task-teacats/netmask-local
 
-		echo >&9
-		echo "[Address]" >&9
-		echo "Address=$ADDR/${RET:-32}" >&9
+		printf >&9 "\n"
+		printf >&9 "[Address]\n"
+		printf >&9 "Address=%s/%s\n" "$ADDR" "${RET:-32}"
 	fi
 
 	exec 9>&-
 
-	TARGET=/etc/systemd/network/${INTERFACE}.network
+	TARGET=/etc/systemd/network/ether.network
 
 	if test ! -e "$TARGET" || ! diff -q "$TARGET" "$TMP" >/dev/null
 	then
 		echo "Installing new interface file"
-		test -e "$TARGET" && mv "$TARGET" "/etc/network/$INTERFACE.$(date +%s).bak"
+		test -e "$TARGET" && mv "$TARGET" "/etc/network/ether.$(date +%s).bak"
 		mv "$TMP" "$TARGET"
 		chmod 644 "$TARGET"
+	fi
+
+	# Delete any lingering existing interface
+	db_get task-teacats/interface
+	if test -e "/etc/systemd/network/$RET.network"
+	then
+	  rm "/etc/systemd/network/$RET.network"
 	fi
 
 	rm -f "$TMP"
@@ -146,8 +155,6 @@ update_config()
 	TARGET=$2
 
 	HOSTNAME=$(hostname)
-	db_get task-teacats/interface
-	INTERFACE="$RET"
 	db_get task-teacats/address-ipv4
 	PUBLIC_IPV4="$RET"
 	db_get task-teacats/address-ipv6
@@ -157,7 +164,6 @@ update_config()
 
 	sed "$1" >"$TMP" \
 	  -e "s/~~hostname~~/$HOSTNAME/" \
-	  -e "s/~~interface~~/$INTERFACE/" \
 	  -e "s/~~ipv4_public~~/$PUBLIC_IPV4/" \
 	  -e "s/~~ipv6_public~~/$PUBLIC_IPV6/" \
 	  -e "s/~~ipv4_local~~/$LOCAL_IPV4/"

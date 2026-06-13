@@ -1100,3 +1100,9 @@ Oct 13 18:00:10 hawk.tea-cats.co.uk systemd-journald[180]: Data hash table of /v
 Oct 13 18:00:10 hawk.tea-cats.co.uk systemd-journald[180]: Data hash table of /var/log/journal/1009f49fff8fe746a5111e1a062f4848/system.journal has a fill level at 75.0 (68542 of 91384 items, 25165824 file size, 367 bytes per hash table item), suggesting rotation.
 Dec 17 13:35:32 clive.tea-cats.co.uk systemd-journald[176]: Under memory pressure, flushing caches.
 2025-11-01T00:00:00.000000+00:00 kestrel.tea-cats.co.uk systemd-tmpfiles[12345]: /usr/lib/tmpfiles.d/legacy.conf:14: Duplicate line for path "/run/lock", ignoring.
+2026-06-13T13:51:24.328071+00:00 griffin.tea-cats.co.uk systemd-networkd[310]: enp0s3: Failed to set IPv6 MTU to 8500: Invalid argument
+2026-06-13T13:56:24.346041+00:00 griffin.tea-cats.co.uk systemd-networkd[310]: enp0s3: Failed to set IPv6 MTU to 8500: Invalid argument
+2026-06-13T14:01:24.369689+00:00 griffin.tea-cats.co.uk systemd-networkd[310]: enp0s3: Failed to set IPv6 MTU to 8500: Invalid argument
+Jun 13 13:06:24 griffin.tea-cats.co.uk systemd-networkd[310]: enp0s3: Failed to set IPv6 MTU to 8500: Invalid argument
+Jun 13 13:11:24 griffin.tea-cats.co.uk systemd-networkd[310]: enp0s3: Failed to set IPv6 MTU to 8500: Invalid argument
+Jun 13 13:16:24 griffin.tea-cats.co.uk systemd-networkd[310]: enp0s3: Failed to set IPv6 MTU to 8500: Invalid argument
